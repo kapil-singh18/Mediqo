@@ -24,7 +24,22 @@ export class AppointmentService {
     const docImg = input.doctorImage || 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&q=80&w=400';
     const fee = input.fees || 50;
 
+    // Fetch patient info for snapshot
+    let patName = 'Patient';
+    let patPhone = '';
+    let patAge = 0;
+    let patGender = 'Not specified';
+
     if (getIsDbConnected()) {
+      const { User } = await import('../models/User.js');
+      const patUser = await (User as any).findById(patientId);
+      if (patUser) {
+        patName = patUser.name;
+        patPhone = patUser.phone || '';
+        patAge = patUser.age || 0;
+        patGender = patUser.gender || 'Not specified';
+      }
+
       // Check duplicate appointment
       const existing = await (Appointment as any).findOne({
         patientId,
@@ -39,6 +54,10 @@ export class AppointmentService {
 
       const newAppointment = await (Appointment as any).create({
         patientId,
+        patientName: patName,
+        patientPhone: patPhone,
+        patientAge: patAge,
+        patientGender: patGender,
         doctorId: input.doctorId,
         doctorName: docName,
         doctorSpeciality: docSpec,

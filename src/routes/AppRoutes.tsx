@@ -20,6 +20,12 @@ import { BillsPage } from '../pages/patient/BillsPage';
 import { ProfilePage } from '../pages/patient/ProfilePage';
 
 import { DoctorDashboard } from '../pages/doctor/DoctorDashboard';
+import { DoctorAppointmentsPage } from '../pages/doctor/DoctorAppointmentsPage';
+import { AppointmentDetailsPage } from '../pages/doctor/AppointmentDetailsPage';
+import { DoctorPrescriptionsPage } from '../pages/doctor/DoctorPrescriptionsPage';
+import { CreateEditPrescriptionPage } from '../pages/doctor/CreateEditPrescriptionPage';
+import { DoctorAvailabilityPage } from '../pages/doctor/DoctorAvailabilityPage';
+import { DoctorProfilePage } from '../pages/doctor/DoctorProfilePage';
 import { ReceptionistDashboard } from '../pages/receptionist/ReceptionistDashboard';
 
 import { ProtectedRoute } from '../components/ProtectedRoute';
@@ -65,6 +71,13 @@ export const AppRoutes: React.FC = () => {
         }
       >
         <Route index element={<DoctorDashboard />} />
+        <Route path="appointments" element={<DoctorAppointmentsPage />} />
+        <Route path="appointments/:id" element={<AppointmentDetailsPage />} />
+        <Route path="prescriptions" element={<DoctorPrescriptionsPage />} />
+        <Route path="prescriptions/new" element={<CreateEditPrescriptionPage />} />
+        <Route path="prescriptions/edit/:id" element={<CreateEditPrescriptionPage />} />
+        <Route path="availability" element={<DoctorAvailabilityPage />} />
+        <Route path="profile" element={<DoctorProfilePage />} />
       </Route>
 
       {/* Protected Receptionist Routes */}

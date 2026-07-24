@@ -12,6 +12,12 @@ export interface User {
   age?: number;
   gender?: string;
   profileImage?: string;
+  qualification?: string;
+  bio?: string;
+  clinicAddress?: string;
+  workingDays?: string[];
+  availableSlots?: string[];
+  consultationDuration?: number;
   createdAt?: string;
   updatedAt?: string;
 }
@@ -40,6 +46,10 @@ export type AppointmentStatus = 'scheduled' | 'completed' | 'cancelled';
 export interface Appointment {
   _id: string;
   patientId: string;
+  patientName?: string;
+  patientPhone?: string;
+  patientAge?: number;
+  patientGender?: string;
   doctorId: string;
   doctorName: string;
   doctorSpeciality: string;
@@ -64,14 +74,20 @@ export interface Medicine {
 export interface Prescription {
   _id: string;
   patientId: string;
+  patientName?: string;
+  patientPhone?: string;
   doctorId: string;
   doctorName: string;
   doctorSpeciality: string;
+  appointmentId?: string;
   appointmentDate: string;
   diagnosis: string;
   instructions: string;
+  followUpDate?: string;
+  status?: 'Completed' | 'Draft';
   medicines: Medicine[];
   createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface Bill {

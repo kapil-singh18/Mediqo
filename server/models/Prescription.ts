@@ -10,13 +10,18 @@ export interface IMedicine {
 export interface IPrescription {
   _id?: any;
   patientId: string;
+  patientName?: string;
+  patientPhone?: string;
   doctorId: string;
   doctorName: string;
   doctorSpeciality: string;
+  appointmentId?: string;
   appointmentDate: string;
   diagnosis: string;
   instructions: string;
   medicines: IMedicine[];
+  followUpDate?: string;
+  status?: 'Completed' | 'Draft';
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -28,9 +33,18 @@ const prescriptionSchema = new Schema<IPrescription>(
       required: true,
       index: true,
     },
+    patientName: {
+      type: String,
+      default: '',
+    },
+    patientPhone: {
+      type: String,
+      default: '',
+    },
     doctorId: {
       type: String,
       required: true,
+      index: true,
     },
     doctorName: {
       type: String,
@@ -39,6 +53,10 @@ const prescriptionSchema = new Schema<IPrescription>(
     doctorSpeciality: {
       type: String,
       required: true,
+    },
+    appointmentId: {
+      type: String,
+      default: '',
     },
     appointmentDate: {
       type: String,
@@ -51,6 +69,15 @@ const prescriptionSchema = new Schema<IPrescription>(
     instructions: {
       type: String,
       default: '',
+    },
+    followUpDate: {
+      type: String,
+      default: '',
+    },
+    status: {
+      type: String,
+      enum: ['Completed', 'Draft'],
+      default: 'Completed',
     },
     medicines: [
       {

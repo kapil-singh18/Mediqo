@@ -24,6 +24,12 @@ export const sanitizeUser = (user: any) => {
     age: obj.age || 0,
     gender: obj.gender || 'Not specified',
     profileImage: obj.profileImage || '',
+    qualification: obj.qualification || 'MBBS, MD',
+    bio: obj.bio || '',
+    clinicAddress: obj.clinicAddress || 'Mediqo Healthcare Tower, 12th Avenue',
+    workingDays: obj.workingDays || ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+    availableSlots: obj.availableSlots || ['09:00 AM', '10:00 AM', '11:00 AM', '02:00 PM', '03:00 PM', '04:00 PM'],
+    consultationDuration: obj.consultationDuration || 20,
     createdAt: obj.createdAt,
     updatedAt: obj.updatedAt,
   };

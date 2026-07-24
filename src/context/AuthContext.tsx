@@ -10,6 +10,7 @@ interface AuthContextType {
   loading: boolean;
   login: (data: LoginFormValues) => Promise<User>;
   register: (data: RegisterFormValues) => Promise<User>;
+  updateUser: (updatedUser: User) => void;
   logout: () => void;
 }
 
@@ -72,6 +73,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
+  const updateUser = (updatedUser: User) => {
+    setUser(updatedUser);
+  };
+
   const logout = () => {
     localStorage.removeItem('mediqo_token');
     setToken(null);
@@ -80,7 +85,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, loading, login, register, logout }}>
+    <AuthContext.Provider value={{ user, token, loading, login, register, updateUser, logout }}>
       {children}
     </AuthContext.Provider>
   );

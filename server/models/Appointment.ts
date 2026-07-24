@@ -9,6 +9,10 @@ export enum AppointmentStatus {
 export interface IAppointment {
   _id?: any;
   patientId: string;
+  patientName?: string;
+  patientPhone?: string;
+  patientAge?: number;
+  patientGender?: string;
   doctorId: string;
   doctorName: string;
   doctorSpeciality: string;
@@ -29,6 +33,22 @@ const appointmentSchema = new Schema<IAppointment>(
       type: String,
       required: true,
       index: true,
+    },
+    patientName: {
+      type: String,
+      default: '',
+    },
+    patientPhone: {
+      type: String,
+      default: '',
+    },
+    patientAge: {
+      type: Number,
+      default: 0,
+    },
+    patientGender: {
+      type: String,
+      default: 'Not specified',
     },
     doctorId: {
       type: String,

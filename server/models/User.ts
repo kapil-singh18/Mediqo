@@ -14,6 +14,12 @@ export interface IUser {
   age?: number;
   gender?: string;
   profileImage?: string;
+  qualification?: string;
+  bio?: string;
+  clinicAddress?: string;
+  workingDays?: string[];
+  availableSlots?: string[];
+  consultationDuration?: number;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -72,6 +78,30 @@ const userSchema = new Schema<IUser>(
     profileImage: {
       type: String,
       default: '',
+    },
+    qualification: {
+      type: String,
+      default: 'MBBS, MD',
+    },
+    bio: {
+      type: String,
+      default: '',
+    },
+    clinicAddress: {
+      type: String,
+      default: '',
+    },
+    workingDays: {
+      type: [String],
+      default: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+    },
+    availableSlots: {
+      type: [String],
+      default: ['09:00 AM', '10:00 AM', '11:00 AM', '02:00 PM', '03:00 PM', '04:00 PM'],
+    },
+    consultationDuration: {
+      type: Number,
+      default: 20,
     },
   },
   {
