@@ -3,12 +3,15 @@ import mongoose from 'mongoose';
 let isConnected = false;
 
 export const connectDB = async (): Promise<boolean> => {
-  if (isConnected) return true;
+  if (isConnected && mongoose.connection.readyState === 1) return true;
+
+  // Disable bufferCommands globally so Mongoose immediately throws on model queries if not connected
+  mongoose.set('bufferCommands', false);
+  mongoose.set('strictQuery', true);
 
   const uri = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/mediqo';
 
   try {
-    mongoose.set('strictQuery', true);
     await mongoose.connect(uri, {
       serverSelectionTimeoutMS: 2000,
     });
@@ -23,4 +26,6 @@ export const connectDB = async (): Promise<boolean> => {
   }
 };
 
-export const getIsDbConnected = () => isConnected;
+export const getIsDbConnected = () => {
+  return isConnected && mongoose.connection.readyState === 1;
+};
