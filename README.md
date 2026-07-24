@@ -55,28 +55,30 @@
 
 ```
 mediqo/
+├── client/                   # React Frontend Application
+│   ├── src/                  # React source code (components, pages, context, routes)
+│   ├── index.html            # Entry HTML document
+│   ├── package.json          # Frontend dependencies & scripts
+│   ├── tsconfig.json         # Client TypeScript config
+│   └── vite.config.ts        # Vite configuration
 ├── server/                   # Express REST API Backend
-│   ├── config/               # Database connection setup
-│   ├── middleware/           # JWT auth & error handling middlewares
-│   ├── models/               # Mongoose schemas (User, Appointment, Prescription, Bill)
-│   ├── routes/               # API Endpoint routes (auth, patient, doctor, receptionist)
-│   ├── services/             # Core business logic & database fallbacks
-│   └── seed.ts               # Database seed script for initial demo data
-├── src/                      # React Frontend Application
-│   ├── assets/               # Medical assets & default doctor profiles
-│   ├── components/           # Reusable UI & role-specific components
-│   │   ├── doctor/           # Doctor UI components
-│   │   ├── patient/          # Patient UI components
-│   │   ├── receptionist/     # Receptionist UI components
-│   │   └── ui/               # Shared UI elements (Modal, EmptyState, Badge)
-│   ├── context/              # React Context (AuthContext)
-│   ├── pages/                # Page views (Landing, Auth, Doctor, Patient, Receptionist)
-│   └── routes/               # App Router & route guards
+│   ├── src/                  # Backend source code
+│   │   ├── config/           # Database configuration
+│   │   ├── controllers/      # Route controllers
+│   │   ├── middleware/       # JWT auth & error handling middlewares
+│   │   ├── models/           # Mongoose schemas
+│   │   ├── routes/           # Express API routes
+│   │   ├── services/         # Core business logic & database fallbacks
+│   │   ├── seed.ts           # Initial seed script
+│   │   └── server.ts         # Express server entry point
+│   ├── package.json          # Backend dependencies & scripts
+│   └── tsconfig.json         # Server TypeScript config
 ├── .env.example              # Environment variables template
-├── metadata.json             # AI Studio applet manifest
-├── package.json              # Monorepo scripts & dependencies
-├── server.ts                 # Express entry point & Vite dev middleware integrator
-└── vite.config.ts            # Vite configuration
+├── LICENSE                   # MIT License
+├── metadata.json             # AI Studio manifest
+├── package.json              # Root workspace coordinator
+├── README.md                 # Project documentation
+└── tsconfig.json             # Root TypeScript config
 ```
 
 ---
@@ -173,26 +175,25 @@ Open `http://localhost:3000` in your browser.
 
 ## ☁️ Production Deployment Guide
 
-### Deploying Backend (Render / Cloud Run)
-1. Set Environment Variables on host platform:
+### Deploying Backend (Render)
+1. Select **Web Service** on Render and connect your GitHub repository.
+2. Set **Root Directory**: `server`
+3. Set Build Command: `npm run build`
+4. Set Start Command: `npm start`
+5. Configure Environment Variables:
    - `NODE_ENV=production`
    - `MONGODB_URI=<your-mongodb-atlas-uri>`
    - `JWT_SECRET=<strong-random-secret>`
    - `PORT=3000`
-2. Build command:
-   ```bash
-   npm run build
-   ```
-3. Start command:
-   ```bash
-   npm start
-   ```
 
 ### Deploying Frontend (Vercel)
-If serving frontend separately:
-- Set Build Command: `npm run build`
-- Output Directory: `dist`
-- Set `VITE_API_URL` to your live API backend URL.
+1. Import repository on Vercel.
+2. Set **Root Directory**: `client`
+3. Framework Preset: `Vite`
+4. Build Command: `npm run build`
+5. Output Directory: `dist`
+6. Environment Variables:
+   - `VITE_API_URL=https://your-render-backend-url.onrender.com/api`
 
 ---
 

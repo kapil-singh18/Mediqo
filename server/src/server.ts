@@ -6,15 +6,15 @@ import path from 'path';
 import cors from 'cors';
 import morgan from 'morgan';
 import { createServer as createViteServer } from 'vite';
-import { connectDB } from './server/config/db.js';
-import { AuthService } from './server/services/authService.js';
-import authRoutes from './server/routes/authRoutes.js';
-import appointmentRoutes from './server/routes/appointmentRoutes.js';
-import prescriptionRoutes from './server/routes/prescriptionRoutes.js';
-import billRoutes from './server/routes/billRoutes.js';
-import doctorRoutes from './server/routes/doctorRoutes.js';
-import receptionistRoutes from './server/routes/receptionistRoutes.js';
-import { errorHandler } from './server/middleware/errorHandler.js';
+import { connectDB } from './config/db.js';
+import { AuthService } from './services/authService.js';
+import authRoutes from './routes/authRoutes.js';
+import appointmentRoutes from './routes/appointmentRoutes.js';
+import prescriptionRoutes from './routes/prescriptionRoutes.js';
+import billRoutes from './routes/billRoutes.js';
+import doctorRoutes from './routes/doctorRoutes.js';
+import receptionistRoutes from './routes/receptionistRoutes.js';
+import { errorHandler } from './middleware/errorHandler.js';
 
 const PORT = Number(process.env.PORT) || 3000;
 
@@ -49,13 +49,15 @@ async function startServer() {
 
   // Vite Development / Production Middleware setup
   if (process.env.NODE_ENV !== 'production') {
+    const clientDir = path.resolve(process.cwd(), 'client');
     const vite = await createViteServer({
+      root: clientDir,
       server: { middlewareMode: true },
       appType: 'spa',
     });
     app.use(vite.middlewares);
   } else {
-    const distPath = path.join(process.cwd(), 'dist');
+    const distPath = path.resolve(process.cwd(), 'client', 'dist');
     app.use(express.static(distPath));
     app.get('*', (req, res) => {
       res.sendFile(path.join(distPath, 'index.html'));
