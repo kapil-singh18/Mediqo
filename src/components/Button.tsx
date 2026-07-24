@@ -17,20 +17,20 @@ export const Button: React.FC<ButtonProps> = ({
   disabled,
   ...props
 }) => {
-  const baseStyles = 'inline-flex items-center justify-center font-semibold rounded-full transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-xs';
+  const baseStyles = 'inline-flex items-center justify-center font-medium rounded-full transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed';
 
   const variants = {
-    primary: 'bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500 shadow-lg shadow-blue-200/80 hover:shadow-blue-300 hover:scale-[1.02] active:scale-[0.98]',
-    secondary: 'bg-blue-50 text-blue-700 hover:bg-blue-100 focus:ring-blue-400 border border-blue-100/80',
-    outline: 'border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 hover:text-blue-600 hover:border-slate-300 focus:ring-blue-500',
-    ghost: 'text-slate-600 hover:bg-slate-100 hover:text-blue-600 shadow-none',
-    danger: 'bg-red-600 text-white hover:bg-red-700 focus:ring-red-500 shadow-lg shadow-red-100',
+    primary: 'bg-[#5F6FFF] text-white hover:bg-[#4d5ceb] focus:ring-[#5F6FFF] shadow-md shadow-blue-500/10 active:scale-[0.98]',
+    secondary: 'bg-[#5F6FFF]/10 text-[#5F6FFF] hover:bg-[#5F6FFF]/15 focus:ring-[#5F6FFF] border border-[#5F6FFF]/20',
+    outline: 'border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 hover:text-[#5F6FFF] hover:border-slate-300 focus:ring-[#5F6FFF]',
+    ghost: 'text-slate-600 hover:bg-slate-100/80 hover:text-[#5F6FFF]',
+    danger: 'bg-red-500 text-white hover:bg-red-600 focus:ring-red-500 shadow-md shadow-red-500/10',
   };
 
   const sizes = {
     sm: 'px-4 py-2 text-xs',
     md: 'px-6 py-2.5 text-sm',
-    lg: 'px-8 py-3.5 text-base',
+    lg: 'px-8 py-3 text-base',
   };
 
   return (
@@ -44,3 +44,4 @@ export const Button: React.FC<ButtonProps> = ({
     </button>
   );
 };
+

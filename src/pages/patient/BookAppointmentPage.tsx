@@ -33,7 +33,7 @@ export const BookAppointmentPage: React.FC = () => {
   const navigate = useNavigate();
   const [submitting, setSubmitting] = useState(false);
 
-  const initialDocId = searchParams.get('doctorId') || doctorsData[0]._id;
+  const initialDocId = searchParams.get('doctorId') || searchParams.get('doctor') || doctorsData[0]._id;
 
   const todayStr = new Date().toISOString().split('T')[0];
 

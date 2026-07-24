@@ -40,15 +40,12 @@ export const Navbar: React.FC = () => {
           
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2.5">
-            <div className="w-10 h-10 rounded-2xl bg-blue-600 flex items-center justify-center text-white shadow-lg shadow-blue-200">
-              <Stethoscope className="w-6 h-6" />
+            <div className="w-9 h-9 rounded-xl bg-[#5F6FFF] flex items-center justify-center text-white shadow-md shadow-blue-500/20">
+              <Stethoscope className="w-5 h-5" />
             </div>
             <div className="flex flex-col">
               <span className="text-xl font-bold tracking-tight text-slate-900">
-                Mediqo<span className="text-blue-600">.</span>
-              </span>
-              <span className="text-[10px] font-semibold uppercase tracking-widest text-slate-400 -mt-1">
-                Clinic CMS
+                Mediqo<span className="text-[#5F6FFF]">.</span>
               </span>
             </div>
           </Link>
@@ -57,35 +54,39 @@ export const Navbar: React.FC = () => {
           <nav className="hidden md:flex items-center space-x-8">
             <Link
               to="/"
-              className={`text-sm font-semibold transition-colors ${
-                isActive('/') ? 'text-blue-600 font-bold' : 'text-slate-600 hover:text-blue-600'
+              className={`py-1 text-xs font-semibold uppercase tracking-wider transition-all relative ${
+                isActive('/') ? 'text-[#5F6FFF]' : 'text-slate-700 hover:text-[#5F6FFF]'
               }`}
             >
               Home
+              {isActive('/') && <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#5F6FFF] rounded-full" />}
             </Link>
             <Link
               to="/doctors"
-              className={`text-sm font-semibold transition-colors ${
-                isActive('/doctors') ? 'text-blue-600 font-bold' : 'text-slate-600 hover:text-blue-600'
+              className={`py-1 text-xs font-semibold uppercase tracking-wider transition-all relative ${
+                isActive('/doctors') ? 'text-[#5F6FFF]' : 'text-slate-700 hover:text-[#5F6FFF]'
               }`}
             >
-              Doctors
+              All Doctors
+              {isActive('/doctors') && <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#5F6FFF] rounded-full" />}
             </Link>
             <Link
               to="/about"
-              className={`text-sm font-semibold transition-colors ${
-                isActive('/about') ? 'text-blue-600 font-bold' : 'text-slate-600 hover:text-blue-600'
+              className={`py-1 text-xs font-semibold uppercase tracking-wider transition-all relative ${
+                isActive('/about') ? 'text-[#5F6FFF]' : 'text-slate-700 hover:text-[#5F6FFF]'
               }`}
             >
               About
+              {isActive('/about') && <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#5F6FFF] rounded-full" />}
             </Link>
             <Link
               to="/contact"
-              className={`text-sm font-semibold transition-colors ${
-                isActive('/contact') ? 'text-blue-600 font-bold' : 'text-slate-600 hover:text-blue-600'
+              className={`py-1 text-xs font-semibold uppercase tracking-wider transition-all relative ${
+                isActive('/contact') ? 'text-[#5F6FFF]' : 'text-slate-700 hover:text-[#5F6FFF]'
               }`}
             >
               Contact
+              {isActive('/contact') && <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#5F6FFF] rounded-full" />}
             </Link>
           </nav>
 

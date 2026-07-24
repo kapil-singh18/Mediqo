@@ -1,90 +1,64 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Stethoscope, Phone, Mail, MapPin } from 'lucide-react';
+import { Stethoscope } from 'lucide-react';
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="bg-gray-900 text-gray-300 pt-16 pb-8 border-t border-gray-800">
+    <footer className="bg-white pt-16 pb-10 border-t border-slate-200/80 text-slate-600">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-10 pb-12 border-b border-gray-800">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-10 pb-12">
           
           {/* Brand Column */}
-          <div className="space-y-4">
+          <div className="space-y-4 md:col-span-2 max-w-sm">
             <div className="flex items-center space-x-2.5">
-              <div className="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center text-white">
+              <div className="w-9 h-9 rounded-xl bg-[#5F6FFF] flex items-center justify-center text-white shadow-md shadow-blue-500/20">
                 <Stethoscope className="w-5 h-5" />
               </div>
-              <span className="text-2xl font-bold tracking-tight text-white">
-                Mediqo<span className="text-blue-500">.</span>
+              <span className="text-2xl font-bold tracking-tight text-slate-900">
+                Mediqo<span className="text-[#5F6FFF]">.</span>
               </span>
             </div>
-            <p className="text-sm text-gray-400 leading-relaxed">
-              Empowering clinics with seamless patient care, intelligent scheduling, and modern practitioner workflows.
+            <p className="text-xs text-slate-500 leading-relaxed">
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.
             </p>
           </div>
 
-          {/* Quick Links */}
+          {/* Company Links */}
           <div className="space-y-3">
-            <h4 className="text-xs font-bold text-white uppercase tracking-wider">Quick Navigation</h4>
-            <ul className="space-y-2 text-sm">
+            <h4 className="text-sm font-bold text-slate-900 uppercase tracking-wider">COMPANY</h4>
+            <ul className="space-y-2 text-xs text-slate-600">
               <li>
-                <Link to="/" className="hover:text-white transition-colors">Home</Link>
+                <Link to="/" className="hover:text-[#5F6FFF] transition-colors">Home</Link>
               </li>
               <li>
-                <Link to="/doctors" className="hover:text-white transition-colors">Doctors</Link>
+                <Link to="/about" className="hover:text-[#5F6FFF] transition-colors">About us</Link>
               </li>
               <li>
-                <Link to="/about" className="hover:text-white transition-colors">About Us</Link>
+                <Link to="/contact" className="hover:text-[#5F6FFF] transition-colors">Contact us</Link>
               </li>
               <li>
-                <Link to="/contact" className="hover:text-white transition-colors">Contact Us</Link>
+                <span className="hover:text-[#5F6FFF] transition-colors cursor-pointer">Privacy policy</span>
               </li>
             </ul>
           </div>
 
-          {/* Services */}
+          {/* Get in Touch */}
           <div className="space-y-3">
-            <h4 className="text-xs font-bold text-white uppercase tracking-wider">Clinical Specialities</h4>
-            <ul className="space-y-2 text-sm text-gray-400">
-              <li>General Medicine</li>
-              <li>Gynecology & Obstetrics</li>
-              <li>Dermatology & Cosmetology</li>
-              <li>Pediatrics & Neonatology</li>
-              <li>Neurology & Spine Care</li>
+            <h4 className="text-sm font-bold text-slate-900 uppercase tracking-wider">GET IN TOUCH</h4>
+            <ul className="space-y-2 text-xs text-slate-600">
+              <li>+1-212-456-7890</li>
+              <li>care@mediqo.com</li>
             </ul>
-          </div>
-
-          {/* Contact Details */}
-          <div className="space-y-3">
-            <h4 className="text-xs font-bold text-white uppercase tracking-wider">Clinic Address</h4>
-            <div className="space-y-2.5 text-sm text-gray-400">
-              <div className="flex items-start space-x-3">
-                <MapPin className="w-4 h-4 text-blue-500 shrink-0 mt-1" />
-                <span>Mediqo Healthcare Tower, 12th Avenue, Medical Hub, City</span>
-              </div>
-              <div className="flex items-center space-x-3">
-                <Phone className="w-4 h-4 text-blue-500 shrink-0" />
-                <span>+1 (800) 555-MEDI</span>
-              </div>
-              <div className="flex items-center space-x-3">
-                <Mail className="w-4 h-4 text-blue-500 shrink-0" />
-                <span>care@mediqo.com</span>
-              </div>
-            </div>
           </div>
 
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-8 flex flex-col md:flex-row items-center justify-between text-xs text-gray-500 space-y-4 md:space-y-0">
-          <p>© {new Date().getFullYear()} Mediqo CMS. All rights reserved.</p>
-          <div className="flex space-x-6">
-            <span className="hover:text-gray-400 cursor-pointer">Privacy Policy</span>
-            <span className="hover:text-gray-400 cursor-pointer">Terms of Service</span>
-            <span className="hover:text-gray-400 cursor-pointer">Security Policy</span>
-          </div>
+        <div className="pt-8 border-t border-slate-100 text-center text-xs text-slate-400">
+          <p>Copyright © {new Date().getFullYear()} Mediqo — All Rights Reserved.</p>
         </div>
       </div>
     </footer>
   );
 };
+
