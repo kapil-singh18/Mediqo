@@ -1,0 +1,6 @@
+{
+  "name": "Mediqo",
+  "description": "A modern Clinic Management System for Patients, Doctors, and Receptionists.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
