@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Calendar, Plus, CalendarX, Stethoscope, Clock, FileText, CheckCircle2, AlertCircle, X } from 'lucide-react';
+import { Calendar, Plus, CalendarX, Clock, X } from 'lucide-react';
 import { Appointment } from '../../types';
 import { patientApi } from '../../services/patientApi';
 import { AppointmentTable } from '../../components/patient/AppointmentTable';
 import { EmptyState } from '../../components/patient/EmptyState';
 import { LoadingSpinner } from '../../components/patient/LoadingSpinner';
 import { StatusBadge } from '../../components/patient/StatusBadge';
-import { Button } from '../../components/Button';
+import { Button } from '../../components/ui/Button';
+import { PageHeader } from '../../components/ui/LayoutPrimitives';
+import { Modal } from '../../components/ui/Modal';
 import toast from 'react-hot-toast';
 
 export const MyAppointmentsPage: React.FC = () => {
@@ -49,23 +51,18 @@ export const MyAppointmentsPage: React.FC = () => {
   return (
     <div className="space-y-8">
       {/* Top Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white rounded-3xl p-8 border border-slate-100 shadow-xs">
-        <div className="space-y-1">
-          <span className="text-xs font-bold text-[#5F6FFF] uppercase tracking-wider">Patient Care Portal</span>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-            My Appointments
-          </h1>
-          <p className="text-sm text-slate-500">
-            View, track, or cancel your scheduled medical consultations.
-          </p>
-        </div>
-
-        <Link to="/patient/book">
-          <Button className="bg-[#5F6FFF] hover:bg-[#4F5FEF] text-white rounded-full px-6 py-3 font-bold text-sm shadow-md shadow-indigo-100">
-            <Plus className="w-4 h-4 mr-2" /> Book New Appointment
-          </Button>
-        </Link>
-      </div>
+      <PageHeader
+        title="My Appointments"
+        subtitle="View, track, or cancel your scheduled medical consultations."
+        badgeText="Patient Care Portal"
+        action={
+          <Link to="/patient/book">
+            <Button variant="primary" leftIcon={<Plus className="w-4 h-4" />}>
+              Book New Appointment
+            </Button>
+          </Link>
+        }
+      />
 
       {/* Main Content Area */}
       {loading ? (
@@ -88,64 +85,57 @@ export const MyAppointmentsPage: React.FC = () => {
 
       {/* Appointment Detail Modal */}
       {selectedAppointment && (
-        <div className="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 space-y-6 shadow-2xl relative border border-slate-100 animate-in fade-in zoom-in duration-200">
-            <button
-              onClick={() => setSelectedAppointment(null)}
-              className="absolute top-5 right-5 p-2 rounded-full hover:bg-slate-100 text-slate-400 hover:text-slate-700 transition-colors"
-            >
-              <X className="w-5 h-5" />
-            </button>
-
-            <div className="space-y-1">
-              <span className="text-xs font-bold text-[#5F6FFF] uppercase tracking-wider">Consultation Card</span>
-              <h3 className="text-xl font-bold text-slate-900">Appointment Details</h3>
-            </div>
-
-            <div className="flex items-center space-x-4 p-4 rounded-2xl bg-indigo-50/50 border border-indigo-100">
+        <Modal
+          isOpen={!!selectedAppointment}
+          onClose={() => setSelectedAppointment(null)}
+          title="Appointment Details"
+          subtitle="Consultation Summary Card"
+        >
+          <div className="space-y-6">
+            <div className="flex items-center space-x-4 p-4 rounded-[12px] bg-[#F0F3FF] border border-[#5F6FFF]/20">
               <img
                 src={selectedAppointment.doctorImage || 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400'}
                 alt={selectedAppointment.doctorName}
-                className="w-16 h-16 rounded-2xl object-cover object-top border border-indigo-200"
+                className="w-16 h-16 rounded-full object-cover border border-[#5F6FFF]/30 shrink-0"
               />
               <div>
                 <h4 className="text-base font-bold text-slate-900">{selectedAppointment.doctorName}</h4>
                 <p className="text-xs font-bold text-[#5F6FFF]">{selectedAppointment.doctorSpeciality}</p>
-                <div className="pt-1">
+                <div className="pt-1.5">
                   <StatusBadge status={selectedAppointment.status} />
                 </div>
               </div>
             </div>
 
             <div className="grid grid-cols-2 gap-4 text-xs">
-              <div className="bg-slate-50 p-3.5 rounded-2xl border border-slate-100 space-y-1">
+              <div className="bg-slate-50 p-3.5 rounded-[10px] border border-slate-200 space-y-1">
                 <p className="text-slate-400 font-bold uppercase text-[10px]">Date</p>
                 <p className="font-bold text-slate-800 flex items-center">
-                  <Calendar className="w-3.5 h-3.5 mr-1 text-[#5F6FFF]" />
+                  <Calendar className="w-3.5 h-3.5 mr-1.5 text-[#5F6FFF]" />
                   {selectedAppointment.appointmentDate}
                 </p>
               </div>
 
-              <div className="bg-slate-50 p-3.5 rounded-2xl border border-slate-100 space-y-1">
+              <div className="bg-slate-50 p-3.5 rounded-[10px] border border-slate-200 space-y-1">
                 <p className="text-slate-400 font-bold uppercase text-[10px]">Time Slot</p>
                 <p className="font-bold text-slate-800 flex items-center">
-                  <Clock className="w-3.5 h-3.5 mr-1 text-[#5F6FFF]" />
+                  <Clock className="w-3.5 h-3.5 mr-1.5 text-[#5F6FFF]" />
                   {selectedAppointment.timeSlot}
                 </p>
               </div>
             </div>
 
-            <div className="space-y-2">
+            <div className="space-y-1.5">
               <p className="text-xs font-bold text-slate-700">Reason for Visit:</p>
-              <div className="p-3.5 rounded-2xl bg-slate-50 text-xs text-slate-700 border border-slate-100">
+              <div className="p-3.5 rounded-[10px] bg-slate-50 text-xs text-slate-700 border border-slate-200">
                 {selectedAppointment.reason}
               </div>
             </div>
 
             {selectedAppointment.notes && (
-              <div className="space-y-2">
+              <div className="space-y-1.5">
                 <p className="text-xs font-bold text-slate-700">Patient / Doctor Notes:</p>
-                <div className="p-3.5 rounded-2xl bg-slate-50 text-xs text-slate-600 border border-slate-100">
+                <div className="p-3.5 rounded-[10px] bg-slate-50 text-xs text-slate-600 border border-slate-200">
                   {selectedAppointment.notes}
                 </div>
               </div>
@@ -167,22 +157,22 @@ export const MyAppointmentsPage: React.FC = () => {
                         handleCancelAppointment(selectedAppointment._id);
                       }
                     }}
-                    className="text-rose-600 hover:bg-rose-50 border-rose-200 rounded-full px-4 text-xs font-bold"
+                    className="text-rose-600 hover:bg-rose-50 border-rose-200"
                   >
                     Cancel Visit
                   </Button>
                 )}
                 <Button
                   size="sm"
+                  variant="secondary"
                   onClick={() => setSelectedAppointment(null)}
-                  className="bg-slate-900 hover:bg-slate-800 text-white rounded-full px-5 text-xs font-bold"
                 >
                   Close
                 </Button>
               </div>
             </div>
           </div>
-        </div>
+        </Modal>
       )}
     </div>
   );

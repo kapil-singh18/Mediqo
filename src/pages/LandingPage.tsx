@@ -197,7 +197,7 @@ export const LandingPage: React.FC = () => {
               <div className="px-4 pb-4 pt-2 flex items-center justify-between border-t border-slate-100 mt-2">
                 <div>
                   <span className="text-[10px] text-slate-400 font-medium block">Consultation Fee</span>
-                  <span className="text-xs font-extrabold text-slate-900">₹{doc.fees}</span>
+                  <span className="text-xs font-extrabold text-slate-900">${doc.fees}</span>
                 </div>
                 <span className="text-xs font-semibold text-[#5F6FFF] group-hover:translate-x-0.5 transition-transform">
                   Book Visit →
@@ -256,7 +256,7 @@ export const LandingPage: React.FC = () => {
             </div>
             <div>
               <p className="text-xs font-bold text-slate-900">Mediqo Care Centers</p>
-              <p className="text-[11px] text-slate-500">Mumbai, Bengaluru, Delhi & Chennai</p>
+              <p className="text-[11px] text-slate-500">New York, Boston, San Francisco & Chicago</p>
             </div>
           </div>
 

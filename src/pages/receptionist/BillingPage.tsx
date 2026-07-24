@@ -6,7 +6,6 @@ import { BillInvoiceModal } from '../../components/receptionist/BillInvoiceModal
 
 import {
   Receipt,
-  Search,
   Filter,
   PlusCircle,
   RefreshCw,
@@ -15,9 +14,11 @@ import {
   Trash2,
   CheckCircle,
   Clock,
-  AlertCircle,
-  DollarSign,
 } from 'lucide-react';
+import { PageHeader } from '../../components/ui/LayoutPrimitives';
+import { Card } from '../../components/ui/Card';
+import { Button } from '../../components/ui/Button';
+import { SearchInput } from '../../components/ui/SearchInput';
 
 export const BillingPage: React.FC = () => {
   const [bills, setBills] = useState<Bill[]>([]);
@@ -84,56 +85,50 @@ export const BillingPage: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6 animate-in fade-in duration-300">
+    <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 border-b border-slate-200 pb-6">
-        <div>
-          <h1 className="text-2xl font-black text-slate-900 tracking-tight flex items-center gap-2">
-            <Receipt className="w-6 h-6 text-purple-700" />
-            Billing & Invoicing Desk
-          </h1>
-          <p className="text-xs text-slate-500 mt-1 font-medium">
-            Manage consultation fee receipts, laboratory charges, payment statuses, and printable invoices.
-          </p>
-        </div>
+      <PageHeader
+        title="Billing & Invoicing Desk"
+        subtitle="Manage consultation fee receipts, laboratory charges, payment statuses, and printable invoices."
+        badgeText="Revenue Management"
+        action={
+          <div className="flex items-center gap-2">
+            <Button
+              variant="primary"
+              onClick={() => {
+                setBillToEdit(null);
+                setCreateBillModalOpen(true);
+              }}
+              leftIcon={<PlusCircle className="w-4 h-4" />}
+            >
+              Issue New Bill Invoice
+            </Button>
 
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => {
-              setBillToEdit(null);
-              setCreateBillModalOpen(true);
-            }}
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-purple-700 hover:bg-purple-800 text-white text-xs font-bold transition-all shadow-md shadow-purple-500/20"
-          >
-            <PlusCircle className="w-4 h-4" />
-            <span>Issue New Bill Invoice</span>
-          </button>
-
-          <button
-            onClick={fetchBills}
-            className="p-2.5 rounded-2xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 transition-colors"
-            title="Refresh Invoices"
-          >
-            <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
-          </button>
-        </div>
-      </div>
+            <Button
+              variant="outline"
+              size="md"
+              onClick={fetchBills}
+              title="Refresh Invoices"
+            >
+              <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
+            </Button>
+          </div>
+        }
+      />
 
       {/* Toolbar Filters */}
-      <div className="bg-white p-4 rounded-3xl border border-slate-200/80 shadow-2xs flex flex-col md:flex-row gap-3 items-center justify-between">
-        <div className="relative w-full md:w-80">
-          <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
-          <input
-            type="text"
-            placeholder="Search invoice #, patient, doctor..."
+      <Card className="p-4 border border-slate-200 flex flex-col md:flex-row gap-3 items-center justify-between">
+        <div className="w-full md:w-80">
+          <SearchInput
             value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 text-xs font-bold bg-slate-50 border border-slate-200 rounded-2xl text-slate-900 focus:outline-none focus:ring-2 focus:ring-purple-600"
+            onChange={setSearch}
+            onClear={() => setSearch('')}
+            placeholder="Search invoice #, patient, doctor..."
           />
         </div>
 
         <div className="flex items-center gap-3 w-full md:w-auto">
-          <div className="flex items-center gap-2 bg-slate-50 px-3 py-1.5 rounded-2xl border border-slate-200">
+          <div className="flex items-center gap-2 bg-slate-50 px-3 py-1.5 rounded-[8px] border border-slate-200">
             <Filter className="w-3.5 h-3.5 text-slate-400" />
             <span className="text-xs font-bold text-slate-500">Status:</span>
             <select
@@ -149,16 +144,16 @@ export const BillingPage: React.FC = () => {
             </select>
           </div>
         </div>
-      </div>
+      </Card>
 
       {error && (
-        <div className="p-4 bg-rose-50 text-rose-700 border border-rose-200 rounded-2xl text-xs font-bold">
+        <div className="p-4 bg-rose-50 text-rose-700 border border-rose-200 rounded-[12px] text-xs font-bold">
           {error}
         </div>
       )}
 
       {/* Invoices Table */}
-      <div className="bg-white rounded-3xl border border-slate-200/80 shadow-2xs overflow-hidden">
+      <Card className="border border-slate-200 overflow-hidden p-0">
         {loading ? (
           <div className="py-16 text-center text-xs text-slate-400">Loading invoice history...</div>
         ) : bills.length === 0 ? (
@@ -181,9 +176,9 @@ export const BillingPage: React.FC = () => {
               </thead>
               <tbody className="divide-y divide-slate-100 text-xs font-medium text-slate-700">
                 {bills.map((bill) => (
-                  <tr key={bill._id} className="hover:bg-purple-50/30 transition-colors">
+                  <tr key={bill._id} className="hover:bg-slate-50/80 transition-colors">
                     <td className="p-4 pl-6 font-extrabold text-slate-900">
-                      <span className="text-xs font-black text-purple-700 bg-purple-50 px-2.5 py-1 rounded-lg border border-purple-100">
+                      <span className="text-xs font-black text-[#5F6FFF] bg-blue-50 px-2.5 py-1 rounded-full border border-blue-100">
                         #{bill.billNumber}
                       </span>
                     </td>
@@ -204,7 +199,7 @@ export const BillingPage: React.FC = () => {
                     </td>
 
                     <td className="p-4">
-                      <span className="text-sm font-black text-slate-900">₹{bill.total}</span>
+                      <span className="text-sm font-black text-slate-900">${bill.total}</span>
                     </td>
 
                     <td className="p-4">
@@ -226,7 +221,7 @@ export const BillingPage: React.FC = () => {
                       <div className="flex items-center justify-end space-x-1.5">
                         <button
                           onClick={() => setSelectedBillForPrint(bill)}
-                          className="p-2 rounded-xl bg-purple-50 hover:bg-purple-100 text-purple-700 transition-colors"
+                          className="p-2 rounded-[8px] bg-blue-50 hover:bg-blue-100 text-[#5F6FFF] transition-colors"
                           title="Print / View Receipt"
                         >
                           <Printer className="w-4 h-4" />
@@ -237,7 +232,7 @@ export const BillingPage: React.FC = () => {
                             setBillToEdit(bill);
                             setCreateBillModalOpen(true);
                           }}
-                          className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors"
+                          className="p-2 rounded-[8px] bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors"
                           title="Edit Invoice"
                         >
                           <Edit className="w-4 h-4" />
@@ -245,7 +240,7 @@ export const BillingPage: React.FC = () => {
 
                         <button
                           onClick={() => handleDeleteBill(bill._id)}
-                          className="p-2 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-600 transition-colors"
+                          className="p-2 rounded-[8px] bg-rose-50 hover:bg-rose-100 text-rose-600 transition-colors"
                           title="Delete Invoice"
                         >
                           <Trash2 className="w-4 h-4" />
@@ -258,7 +253,7 @@ export const BillingPage: React.FC = () => {
             </table>
           </div>
         )}
-      </div>
+      </Card>
 
       {/* Modals */}
       <CreateBillModal

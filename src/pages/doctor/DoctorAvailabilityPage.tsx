@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { doctorApi } from '../../services/doctorApi';
-import { Clock, Calendar, Save, CheckCircle2, Plus, Trash2, ShieldCheck } from 'lucide-react';
+import { Clock, Calendar, Save, CheckCircle2, Plus, Trash2 } from 'lucide-react';
+import { PageHeader } from '../../components/ui/LayoutPrimitives';
+import { Card, SectionCard } from '../../components/ui/Card';
+import { Button } from '../../components/ui/Button';
+import { Input } from '../../components/ui/Input';
 
 const ALL_DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
@@ -117,58 +121,49 @@ export const DoctorAvailabilityPage: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="bg-white rounded-3xl p-12 border border-slate-200 text-center text-xs text-slate-400">
+      <Card className="p-12 border border-slate-200 text-center text-xs text-slate-400">
         Loading availability preferences...
-      </div>
+      </Card>
     );
   }
 
   return (
-    <div className="space-y-6 max-w-4xl mx-auto animate-in fade-in duration-300">
+    <div className="space-y-6 max-w-4xl mx-auto">
       {/* Header Banner */}
-      <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-2xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <span className="text-xs font-bold text-[#5F6FFF] bg-blue-50 px-3 py-1 rounded-full border border-blue-100 uppercase tracking-wider">
-            Schedule & Time Slots
-          </span>
-          <h1 className="text-2xl font-extrabold text-slate-900 mt-2">Manage Consultation Availability</h1>
-          <p className="text-xs text-slate-500 mt-1">
-            Configure your active consultation days, available time slots, and appointment slot duration.
-          </p>
-        </div>
-
-        <button
-          onClick={handleSave}
-          disabled={saving}
-          className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl text-xs font-bold text-white bg-[#5F6FFF] hover:bg-blue-700 shadow-md shadow-blue-500/20 transition-all self-start sm:self-auto disabled:opacity-50"
-        >
-          <Save className="w-4 h-4" />
-          <span>{saving ? 'Saving...' : 'Save Changes'}</span>
-        </button>
-      </div>
+      <PageHeader
+        title="Manage Consultation Availability"
+        subtitle="Configure your active consultation days, available time slots, and appointment slot duration."
+        badgeText="Schedule & Time Slots"
+        action={
+          <Button
+            variant="primary"
+            onClick={handleSave}
+            isLoading={saving}
+            leftIcon={<Save className="w-4 h-4" />}
+          >
+            Save Changes
+          </Button>
+        }
+      />
 
       {successMessage && (
-        <div className="bg-emerald-50 text-emerald-800 p-4 rounded-2xl text-xs font-bold border border-emerald-200 flex items-center gap-2">
+        <div className="bg-emerald-50 text-emerald-800 p-4 rounded-[12px] text-xs font-bold border border-emerald-200 flex items-center gap-2">
           <CheckCircle2 className="w-4 h-4 text-emerald-600" />
           {successMessage}
         </div>
       )}
 
       {errorMessage && (
-        <div className="bg-rose-50 text-rose-700 p-4 rounded-2xl text-xs font-bold border border-rose-200">
+        <div className="bg-rose-50 text-rose-700 p-4 rounded-[12px] text-xs font-bold border border-rose-200">
           {errorMessage}
         </div>
       )}
 
       {/* Working Days Selector */}
-      <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-2xs space-y-4">
-        <h2 className="text-sm font-extrabold text-slate-900 uppercase tracking-wider flex items-center gap-2">
-          <Calendar className="w-4 h-4 text-[#5F6FFF]" />
-          Active Working Days
-        </h2>
-        <p className="text-xs text-slate-500">Days when patients are permitted to book online appointments.</p>
+      <SectionCard title="Active Working Days" icon={<Calendar className="w-4 h-4 text-[#5F6FFF]" />}>
+        <p className="text-xs text-slate-500 mb-3">Days when patients are permitted to book online appointments.</p>
 
-        <div className="flex flex-wrap gap-2 pt-2">
+        <div className="flex flex-wrap gap-2">
           {ALL_DAYS.map((day) => {
             const isSelected = workingDays.includes(day);
             return (
@@ -176,7 +171,7 @@ export const DoctorAvailabilityPage: React.FC = () => {
                 key={day}
                 type="button"
                 onClick={() => toggleDay(day)}
-                className={`px-4 py-2.5 rounded-2xl text-xs font-bold transition-all border ${
+                className={`px-4 py-2.5 rounded-full text-xs font-bold transition-all border ${
                   isSelected
                     ? 'bg-[#5F6FFF] text-white border-[#5F6FFF] shadow-xs'
                     : 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100'
@@ -187,23 +182,19 @@ export const DoctorAvailabilityPage: React.FC = () => {
             );
           })}
         </div>
-      </div>
+      </SectionCard>
 
       {/* Consultation Duration Selector */}
-      <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-2xs space-y-4">
-        <h2 className="text-sm font-extrabold text-slate-900 uppercase tracking-wider flex items-center gap-2">
-          <Clock className="w-4 h-4 text-[#5F6FFF]" />
-          Slot Consultation Duration
-        </h2>
-        <p className="text-xs text-slate-500">Average duration allocated per patient consultation session.</p>
+      <SectionCard title="Slot Consultation Duration" icon={<Clock className="w-4 h-4 text-[#5F6FFF]" />}>
+        <p className="text-xs text-slate-500 mb-3">Average duration allocated per patient consultation session.</p>
 
-        <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 pt-2">
+        <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
           {[15, 20, 30, 45, 60].map((mins) => (
             <button
               key={mins}
               type="button"
               onClick={() => setConsultationDuration(mins)}
-              className={`p-3 rounded-2xl text-xs font-extrabold transition-all border text-center ${
+              className={`p-3 rounded-[12px] text-xs font-extrabold transition-all border text-center ${
                 consultationDuration === mins
                   ? 'bg-[#5F6FFF] text-white border-[#5F6FFF] shadow-xs'
                   : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
@@ -213,10 +204,10 @@ export const DoctorAvailabilityPage: React.FC = () => {
             </button>
           ))}
         </div>
-      </div>
+      </SectionCard>
 
       {/* Available Time Slots Manager */}
-      <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-2xs space-y-6">
+      <Card className="p-6 sm:p-8 space-y-6 border border-slate-200">
         <div>
           <h2 className="text-sm font-extrabold text-slate-900 uppercase tracking-wider flex items-center gap-2">
             <Clock className="w-4 h-4 text-emerald-600" />
@@ -236,7 +227,7 @@ export const DoctorAvailabilityPage: React.FC = () => {
                   key={slot}
                   type="button"
                   onClick={() => toggleSlot(slot)}
-                  className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all border ${
+                  className={`px-3.5 py-2 rounded-full text-xs font-bold transition-all border ${
                     active
                       ? 'bg-emerald-600 text-white border-emerald-600 shadow-xs'
                       : 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100'
@@ -252,20 +243,22 @@ export const DoctorAvailabilityPage: React.FC = () => {
         {/* Custom Slot Input */}
         <div className="pt-2 border-t border-slate-100 space-y-3">
           <p className="text-[11px] font-bold text-slate-400 uppercase">Add Custom Time Slot</p>
-          <form onSubmit={handleAddCustomSlot} className="flex gap-2 max-w-sm">
-            <input
-              type="text"
-              value={newSlotInput}
-              onChange={(e) => setNewSlotInput(e.target.value)}
-              placeholder="e.g. 07:30 PM"
-              className="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#5F6FFF]"
-            />
-            <button
+          <form onSubmit={handleAddCustomSlot} className="flex items-center gap-2 max-w-sm">
+            <div className="flex-1">
+              <Input
+                value={newSlotInput}
+                onChange={(e) => setNewSlotInput(e.target.value)}
+                placeholder="e.g. 07:30 PM"
+              />
+            </div>
+            <Button
               type="submit"
-              className="px-4 py-2 rounded-xl text-xs font-bold text-white bg-[#5F6FFF] hover:bg-blue-700 transition-colors flex items-center gap-1"
+              variant="primary"
+              size="md"
+              leftIcon={<Plus className="w-3.5 h-3.5" />}
             >
-              <Plus className="w-3.5 h-3.5" /> Add
-            </button>
+              Add
+            </Button>
           </form>
         </div>
 
@@ -276,7 +269,7 @@ export const DoctorAvailabilityPage: React.FC = () => {
             {availableSlots.map((slot) => (
               <span
                 key={slot}
-                className="inline-flex items-center gap-2 bg-blue-50 text-[#5F6FFF] border border-blue-100 px-3 py-1.5 rounded-xl text-xs font-bold"
+                className="inline-flex items-center gap-2 bg-[#F0F3FF] text-[#5F6FFF] border border-[#5F6FFF]/20 px-3 py-1.5 rounded-full text-xs font-bold"
               >
                 {slot}
                 <button
@@ -290,7 +283,7 @@ export const DoctorAvailabilityPage: React.FC = () => {
             ))}
           </div>
         </div>
-      </div>
+      </Card>
     </div>
   );
 };

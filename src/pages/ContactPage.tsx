@@ -31,7 +31,7 @@ export const ContactPage: React.FC = () => {
             </h3>
             <p className="text-slate-500 pl-6">
               Mediqo Care Tower, Suite 350 <br />
-              Bandra West, Mumbai, MH 400050
+              742 Evergreen Ave, New York, NY 10001
             </p>
           </div>
 

@@ -94,7 +94,7 @@ export const LoginPage: React.FC = () => {
               className="w-10 h-10 rounded-full object-cover border-2 border-white/30"
             />
             <div>
-              <p className="text-xs font-bold text-white leading-tight">Dr. Rajesh Sharma</p>
+              <p className="text-xs font-bold text-white leading-tight">Dr. James Wilson</p>
               <p className="text-[10px] text-blue-200">Chief Medical Director</p>
             </div>
           </div>
@@ -123,25 +123,25 @@ export const LoginPage: React.FC = () => {
             <div className="grid grid-cols-3 gap-1.5 text-[11px]">
               <button
                 type="button"
-                onClick={() => handleDemoFill('dr.rajesh@mediqo.com')}
-                className="px-2 py-1.5 rounded-[8px] bg-white border border-[#D6DDFF] text-slate-800 font-semibold hover:bg-blue-50 text-left truncate transition-colors"
-                title="Dr. Rajesh Sharma (Doctor)"
+                onClick={() => handleDemoFill('dr.james@mediqo.com')}
+                className="px-2 py-1.5 rounded-[8px] bg-white border border-[#D6DDFF] text-slate-800 font-semibold hover:bg-blue-50 text-left truncate transition-colors cursor-pointer"
+                title="Dr. James Wilson (Doctor)"
               >
                 👨‍⚕️ Doctor
               </button>
               <button
                 type="button"
                 onClick={() => handleDemoFill('receptionist@mediqo.com')}
-                className="px-2 py-1.5 rounded-[8px] bg-white border border-[#D6DDFF] text-slate-800 font-semibold hover:bg-purple-50 text-left truncate transition-colors"
-                title="Sunita Rao (Receptionist)"
+                className="px-2 py-1.5 rounded-[8px] bg-white border border-[#D6DDFF] text-slate-800 font-semibold hover:bg-purple-50 text-left truncate transition-colors cursor-pointer"
+                title="Sarah Jenkins (Receptionist)"
               >
                 👩‍💼 Receptionist
               </button>
               <button
                 type="button"
                 onClick={() => handleDemoFill('patient@mediqo.com')}
-                className="px-2 py-1.5 rounded-[8px] bg-white border border-[#D6DDFF] text-slate-800 font-semibold hover:bg-emerald-50 text-left truncate transition-colors"
-                title="Aarav Mehta (Patient)"
+                className="px-2 py-1.5 rounded-[8px] bg-white border border-[#D6DDFF] text-slate-800 font-semibold hover:bg-emerald-50 text-left truncate transition-colors cursor-pointer"
+                title="Alex Morgan (Patient)"
               >
                 👤 Patient
               </button>

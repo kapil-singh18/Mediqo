@@ -91,8 +91,8 @@ export const BillInvoiceModal: React.FC<BillInvoiceModalProps> = ({ bill, onClos
                 <tr>
                   <td className="py-2.5 font-bold text-slate-800">Doctor Consultation Fee</td>
                   <td className="py-2.5 text-center">1</td>
-                  <td className="py-2.5 text-right">₹{bill.consultationFee}</td>
-                  <td className="py-2.5 text-right font-bold">₹{bill.consultationFee}</td>
+                  <td className="py-2.5 text-right">${bill.consultationFee}</td>
+                  <td className="py-2.5 text-right font-bold">${bill.consultationFee}</td>
                 </tr>
 
                 {bill.items &&
@@ -100,9 +100,9 @@ export const BillInvoiceModal: React.FC<BillInvoiceModalProps> = ({ bill, onClos
                     <tr key={idx}>
                       <td className="py-2.5 text-slate-700">{item.description}</td>
                       <td className="py-2.5 text-center">{item.quantity || 1}</td>
-                      <td className="py-2.5 text-right">₹{item.amount}</td>
+                      <td className="py-2.5 text-right">${item.amount}</td>
                       <td className="py-2.5 text-right font-bold">
-                        ₹{(Number(item.amount) * Number(item.quantity || 1))}
+                        ${(Number(item.amount) * Number(item.quantity || 1))}
                       </td>
                     </tr>
                   ))}
@@ -114,12 +114,12 @@ export const BillInvoiceModal: React.FC<BillInvoiceModalProps> = ({ bill, onClos
           <div className="border-t border-slate-200 pt-4 space-y-1.5 text-xs text-right">
             {bill.discount ? (
               <p className="text-slate-500">
-                Discount Applied: <span className="text-rose-600 font-bold">-₹{bill.discount}</span>
+                Discount Applied: <span className="text-rose-600 font-bold">-${bill.discount}</span>
               </p>
             ) : null}
             {bill.tax ? (
               <p className="text-slate-500">
-                Tax / Surcharge: <span className="font-bold">+₹{bill.tax}</span>
+                Tax / Surcharge: <span className="font-bold">+${bill.tax}</span>
               </p>
             ) : null}
 
@@ -139,7 +139,7 @@ export const BillInvoiceModal: React.FC<BillInvoiceModalProps> = ({ bill, onClos
 
               <div>
                 <span className="text-[10px] uppercase font-bold text-slate-400 block">Total Amount Due</span>
-                <span className="text-2xl font-black text-slate-900">₹{bill.total}</span>
+                <span className="text-2xl font-black text-slate-900">${bill.total}</span>
               </div>
             </div>
           </div>

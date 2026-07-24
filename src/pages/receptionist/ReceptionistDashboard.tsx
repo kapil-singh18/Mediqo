@@ -181,7 +181,7 @@ export const ReceptionistDashboard: React.FC = () => {
 
         <StatCard
           title="Pending Payments"
-          value={`₹${stats.pendingPaymentTotal}`}
+          value={`$${stats.pendingPaymentTotal}`}
           subtitle="Unsettled patient invoices"
           icon={<CreditCard className="w-5 h-5 text-amber-600" />}
           badgeText="Due"
@@ -320,7 +320,7 @@ export const ReceptionistDashboard: React.FC = () => {
                     </div>
 
                     <div className="text-right space-y-1">
-                      <p className="text-sm font-extrabold text-slate-900">₹{bill.total}</p>
+                      <p className="text-sm font-extrabold text-slate-900">${bill.total}</p>
                       <span
                         className={`text-[10px] font-bold px-2 py-0.5 rounded-full inline-block ${
                           bill.status === 'Paid'

@@ -6,7 +6,6 @@ import { StatusBadge } from '../../components/doctor/StatusBadge';
 import { PrescriptionModal } from '../../components/doctor/PrescriptionModal';
 import {
   FileText,
-  Search,
   PlusCircle,
   Eye,
   Edit,
@@ -14,9 +13,11 @@ import {
   Calendar,
   User,
   Pill,
-  ArrowRight,
-  Filter,
 } from 'lucide-react';
+import { PageHeader } from '../../components/ui/LayoutPrimitives';
+import { Card } from '../../components/ui/Card';
+import { Button } from '../../components/ui/Button';
+import { SearchInput } from '../../components/ui/SearchInput';
 
 export const DoctorPrescriptionsPage: React.FC = () => {
   const navigate = useNavigate();
@@ -70,51 +71,44 @@ export const DoctorPrescriptionsPage: React.FC = () => {
   });
 
   return (
-    <div className="space-y-6 animate-in fade-in duration-300">
+    <div className="space-y-6">
       {/* Header Banner */}
-      <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-2xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <span className="text-xs font-bold text-[#5F6FFF] bg-blue-50 px-3 py-1 rounded-full border border-blue-100 uppercase tracking-wider">
-            Clinical Documentation
-          </span>
-          <h1 className="text-2xl font-extrabold text-slate-900 mt-2">Prescription Management</h1>
-          <p className="text-xs text-slate-500 mt-1">
-            Create, issue, edit, and review patient medical prescriptions.
-          </p>
-        </div>
-
-        <button
-          onClick={() => navigate('/doctor/prescriptions/new')}
-          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold text-white bg-[#5F6FFF] hover:bg-blue-700 shadow-md shadow-blue-500/20 transition-all self-start sm:self-auto"
-        >
-          <PlusCircle className="w-4 h-4" />
-          <span>New Prescription</span>
-        </button>
-      </div>
+      <PageHeader
+        title="Prescription Management"
+        subtitle="Create, issue, edit, and review patient medical prescriptions."
+        badgeText="Clinical Documentation"
+        action={
+          <Button
+            variant="primary"
+            onClick={() => navigate('/doctor/prescriptions/new')}
+            leftIcon={<PlusCircle className="w-4 h-4" />}
+          >
+            New Prescription
+          </Button>
+        }
+      />
 
       {/* Filter and Search Bar */}
-      <div className="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-2xs space-y-4">
+      <Card className="p-4 border border-slate-200 space-y-4">
         <form onSubmit={handleSearchSubmit} className="flex flex-col sm:flex-row gap-3">
-          <div className="relative flex-1">
-            <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
-            <input
-              type="text"
+          <div className="flex-1">
+            <SearchInput
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={setSearchTerm}
+              onClear={() => {
+                setSearchTerm('');
+                fetchPrescriptions();
+              }}
               placeholder="Search by patient name or diagnosis..."
-              className="w-full pl-10 pr-4 py-2.5 text-xs font-semibold bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#5F6FFF] text-slate-900"
             />
           </div>
-          <button
-            type="submit"
-            className="px-5 py-2.5 rounded-xl text-xs font-bold text-white bg-[#5F6FFF] hover:bg-blue-700 transition-colors"
-          >
+          <Button type="submit" variant="primary">
             Search
-          </button>
+          </Button>
         </form>
 
         <div className="flex items-center justify-between border-t border-slate-100 pt-3">
-          <div className="flex items-center space-x-1 bg-slate-100 p-1 rounded-xl">
+          <div className="flex items-center space-x-1 bg-slate-100 p-1 rounded-full">
             {[
               { id: 'all', label: 'All Prescriptions' },
               { id: 'Completed', label: 'Completed' },
@@ -123,7 +117,7 @@ export const DoctorPrescriptionsPage: React.FC = () => {
               <button
                 key={tab.id}
                 onClick={() => setStatusFilter(tab.id as any)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                className={`px-3 py-1.5 rounded-full text-xs font-bold transition-all ${
                   statusFilter === tab.id
                     ? 'bg-white text-[#5F6FFF] shadow-xs'
                     : 'text-slate-600 hover:text-slate-900'
@@ -138,35 +132,35 @@ export const DoctorPrescriptionsPage: React.FC = () => {
             Total: <strong className="text-slate-900">{filteredPrescriptions.length}</strong> Record(s)
           </p>
         </div>
-      </div>
+      </Card>
 
       {/* Prescriptions List Grid */}
       {loading ? (
-        <div className="bg-white rounded-3xl p-12 border border-slate-200 text-center text-xs text-slate-400">
+        <Card className="p-12 border border-slate-200 text-center text-xs text-slate-400">
           Loading prescriptions...
-        </div>
+        </Card>
       ) : error ? (
-        <div className="bg-rose-50 text-rose-700 p-4 rounded-2xl text-xs font-semibold border border-rose-200">
+        <div className="bg-rose-50 text-rose-700 p-4 rounded-[12px] text-xs font-semibold border border-rose-200">
           {error}
         </div>
       ) : filteredPrescriptions.length === 0 ? (
-        <div className="bg-white rounded-3xl p-12 border border-slate-200 text-center space-y-3">
+        <Card className="p-12 border border-slate-200 text-center space-y-3">
           <FileText className="w-10 h-10 text-slate-300 mx-auto" />
           <h3 className="text-sm font-bold text-slate-800">No prescriptions found</h3>
           <p className="text-xs text-slate-500 max-w-sm mx-auto">
             You haven't created any prescriptions matching this criteria yet.
           </p>
-        </div>
+        </Card>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredPrescriptions.map((rx) => (
-            <div
+            <Card
               key={rx._id}
-              className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-2xs hover:shadow-md transition-all flex flex-col justify-between space-y-4"
+              className="p-6 border border-slate-200 hover:border-[#5F6FFF]/40 transition-all flex flex-col justify-between space-y-4"
             >
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-[#5F6FFF] bg-blue-50 px-2.5 py-1 rounded-lg border border-blue-100">
+                  <span className="text-xs font-bold text-[#5F6FFF] bg-blue-50 px-2.5 py-1 rounded-full border border-blue-100">
                     #{rx._id.slice(-6).toUpperCase()}
                   </span>
                   <StatusBadge status={rx.status || 'Completed'} />
@@ -183,7 +177,7 @@ export const DoctorPrescriptionsPage: React.FC = () => {
                   </p>
                 </div>
 
-                <div className="bg-slate-50 p-3 rounded-2xl border border-slate-100 text-xs">
+                <div className="bg-slate-50 p-3 rounded-[10px] border border-slate-200 text-xs">
                   <p className="text-slate-400 font-bold uppercase text-[10px]">Diagnosis</p>
                   <p className="text-slate-900 font-bold mt-0.5 truncate">{rx.diagnosis}</p>
                 </div>
@@ -209,7 +203,7 @@ export const DoctorPrescriptionsPage: React.FC = () => {
                 <div className="flex items-center space-x-1">
                   <button
                     onClick={() => navigate(`/doctor/prescriptions/edit/${rx._id}`)}
-                    className="p-2 text-slate-500 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-colors"
+                    className="p-2 text-slate-500 hover:text-blue-600 hover:bg-blue-50 rounded-[8px] transition-colors"
                     title="Edit Prescription"
                   >
                     <Edit className="w-4 h-4" />
@@ -217,14 +211,14 @@ export const DoctorPrescriptionsPage: React.FC = () => {
 
                   <button
                     onClick={() => handleDelete(rx._id)}
-                    className="p-2 text-slate-500 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-colors"
+                    className="p-2 text-slate-500 hover:text-rose-600 hover:bg-rose-50 rounded-[8px] transition-colors"
                     title="Delete Prescription"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>
                 </div>
               </div>
-            </div>
+            </Card>
           ))}
         </div>
       )}

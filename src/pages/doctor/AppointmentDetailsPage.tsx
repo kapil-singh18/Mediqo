@@ -13,9 +13,10 @@ import {
   Pill,
   CheckCircle2,
   XCircle,
-  Activity,
-  ShieldCheck,
 } from 'lucide-react';
+import { PageHeader } from '../../components/ui/LayoutPrimitives';
+import { Card, SectionCard } from '../../components/ui/Card';
+import { Button } from '../../components/ui/Button';
 
 export const AppointmentDetailsPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -59,9 +60,9 @@ export const AppointmentDetailsPage: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="bg-white rounded-3xl p-12 border border-slate-200 text-center text-xs text-slate-400">
+      <Card className="p-12 border border-slate-200 text-center text-xs text-slate-400">
         Loading appointment record...
-      </div>
+      </Card>
     );
   }
 
@@ -71,7 +72,7 @@ export const AppointmentDetailsPage: React.FC = () => {
         <Link to="/doctor/appointments" className="inline-flex items-center text-xs font-bold text-[#5F6FFF]">
           <ArrowLeft className="w-4 h-4 mr-1" /> Back to Appointments
         </Link>
-        <div className="bg-rose-50 text-rose-700 p-6 rounded-3xl border border-rose-200 text-xs font-semibold">
+        <div className="bg-rose-50 text-rose-700 p-6 rounded-[16px] border border-rose-200 text-xs font-semibold">
           {error || 'Appointment record not found'}
         </div>
       </div>
@@ -79,7 +80,7 @@ export const AppointmentDetailsPage: React.FC = () => {
   }
 
   return (
-    <div className="space-y-6 max-w-4xl mx-auto animate-in fade-in duration-300">
+    <div className="space-y-6 max-w-4xl mx-auto">
       {/* Back button */}
       <Link
         to="/doctor/appointments"
@@ -90,19 +91,13 @@ export const AppointmentDetailsPage: React.FC = () => {
       </Link>
 
       {/* Main Header */}
-      <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-2xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <div className="flex items-center space-x-3">
-            <h1 className="text-2xl font-extrabold text-slate-900">Consultation Overview</h1>
-            <StatusBadge status={appointment.status} />
-          </div>
-          <p className="text-xs text-slate-500 mt-1">
-            Appointment ID: #{appointment._id.slice(-8).toUpperCase()}
-          </p>
-        </div>
-
-        <div className="flex flex-wrap items-center gap-2">
-          <button
+      <PageHeader
+        title="Consultation Overview"
+        subtitle={`Appointment ID: #${appointment._id.slice(-8).toUpperCase()}`}
+        badgeText="Patient File"
+        action={
+          <Button
+            variant="primary"
             onClick={() =>
               navigate(
                 `/doctor/prescriptions/new?patientId=${appointment.patientId}&patientName=${encodeURIComponent(
@@ -112,23 +107,17 @@ export const AppointmentDetailsPage: React.FC = () => {
                 )}&appointmentId=${appointment._id}&appointmentDate=${appointment.appointmentDate}`
               )
             }
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold text-white bg-[#5F6FFF] hover:bg-blue-700 shadow-xs transition-colors"
+            leftIcon={<Pill className="w-4 h-4" />}
           >
-            <Pill className="w-4 h-4" />
             Write Prescription
-          </button>
-        </div>
-      </div>
+          </Button>
+        }
+      />
 
       {/* Grid: Patient Details & Appointment Info */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Patient Snapshot Card */}
-        <div className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-2xs space-y-4">
-          <h2 className="text-sm font-extrabold text-slate-900 uppercase tracking-wider flex items-center gap-2 border-b border-slate-100 pb-3">
-            <User className="w-4 h-4 text-[#5F6FFF]" />
-            Patient Profile Snapshot
-          </h2>
-
+        <SectionCard title="Patient Profile Snapshot" icon={<User className="w-4 h-4 text-[#5F6FFF]" />}>
           <div className="space-y-3 text-xs">
             <div>
               <p className="text-[10px] font-bold text-slate-400 uppercase">Patient Full Name</p>
@@ -161,15 +150,10 @@ export const AppointmentDetailsPage: React.FC = () => {
               </p>
             </div>
           </div>
-        </div>
+        </SectionCard>
 
         {/* Appointment Details Card */}
-        <div className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-2xs space-y-4">
-          <h2 className="text-sm font-extrabold text-slate-900 uppercase tracking-wider flex items-center gap-2 border-b border-slate-100 pb-3">
-            <Calendar className="w-4 h-4 text-[#5F6FFF]" />
-            Consultation Time & Fees
-          </h2>
-
+        <SectionCard title="Consultation Time & Fees" icon={<Calendar className="w-4 h-4 text-[#5F6FFF]" />}>
           <div className="space-y-3 text-xs">
             <div className="grid grid-cols-2 gap-3">
               <div>
@@ -188,7 +172,7 @@ export const AppointmentDetailsPage: React.FC = () => {
 
             <div>
               <p className="text-[10px] font-bold text-slate-400 uppercase">Consultation Fee</p>
-              <p className="text-sm font-extrabold text-emerald-600 mt-0.5">${appointment.fees || 50}</p>
+              <p className="text-sm font-extrabold text-emerald-600 mt-0.5">${appointment.fees || 100}</p>
             </div>
 
             <div>
@@ -196,24 +180,24 @@ export const AppointmentDetailsPage: React.FC = () => {
               <p className="text-xs font-semibold text-slate-700 mt-0.5">{appointment.doctorSpeciality}</p>
             </div>
           </div>
-        </div>
+        </SectionCard>
       </div>
 
       {/* Visit Reason & Clinical Notes */}
-      <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-2xs space-y-4">
+      <Card className="p-6 sm:p-8 space-y-4 border border-slate-200">
         <h2 className="text-sm font-extrabold text-slate-900 uppercase tracking-wider flex items-center gap-2">
           <FileText className="w-4 h-4 text-[#5F6FFF]" />
           Chief Complaint & Reason for Visit
         </h2>
 
-        <div className="bg-slate-50/80 p-4 rounded-2xl border border-slate-200/80 text-xs font-medium text-slate-900 leading-relaxed">
+        <div className="bg-[#F0F3FF] p-4 rounded-[12px] border border-[#5F6FFF]/20 text-xs font-medium text-slate-900 leading-relaxed">
           {appointment.reason}
         </div>
 
         {appointment.notes && (
           <div className="space-y-1 pt-2">
             <p className="text-[11px] font-bold text-slate-400 uppercase">Patient Additional Notes</p>
-            <p className="text-xs text-slate-700 bg-amber-50/60 p-3 rounded-xl border border-amber-100">
+            <p className="text-xs text-slate-700 bg-amber-50 p-3 rounded-[10px] border border-amber-200/60">
               {appointment.notes}
             </p>
           </div>
@@ -226,7 +210,7 @@ export const AppointmentDetailsPage: React.FC = () => {
             {appointment.status !== 'completed' && (
               <button
                 onClick={() => handleStatusChange('completed')}
-                className="px-4 py-2 rounded-xl text-xs font-bold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 transition-colors inline-flex items-center gap-1.5"
+                className="px-4 py-2 rounded-[8px] text-xs font-bold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 transition-colors inline-flex items-center gap-1.5"
               >
                 <CheckCircle2 className="w-4 h-4" />
                 Mark Completed
@@ -236,7 +220,7 @@ export const AppointmentDetailsPage: React.FC = () => {
             {appointment.status !== 'cancelled' && (
               <button
                 onClick={() => handleStatusChange('cancelled')}
-                className="px-4 py-2 rounded-xl text-xs font-bold text-rose-700 bg-rose-50 hover:bg-rose-100 border border-rose-200 transition-colors inline-flex items-center gap-1.5"
+                className="px-4 py-2 rounded-[8px] text-xs font-bold text-rose-700 bg-rose-50 hover:bg-rose-100 border border-rose-200 transition-colors inline-flex items-center gap-1.5"
               >
                 <XCircle className="w-4 h-4" />
                 Cancel Appointment
@@ -244,7 +228,7 @@ export const AppointmentDetailsPage: React.FC = () => {
             )}
           </div>
         </div>
-      </div>
+      </Card>
     </div>
   );
 };

@@ -132,7 +132,7 @@ export const PatientDashboard: React.FC = () => {
 
         <StatCard
           title="Pending Invoices"
-          value={`₹${pendingTotal}`}
+          value={`$${pendingTotal}`}
           subtitle={`${pendingBills.length} unpaid bill${pendingBills.length === 1 ? '' : 's'}`}
           icon={<CreditCard className="w-5 h-5 text-amber-600" />}
           badgeText={pendingBills.length > 0 ? `${pendingBills.length} Due` : 'Settled'}
@@ -374,7 +374,7 @@ export const PatientDashboard: React.FC = () => {
                   </div>
 
                   <div className="text-right space-y-1">
-                    <p className="text-sm font-extrabold text-slate-900">₹{bill.total}</p>
+                    <p className="text-sm font-extrabold text-slate-900">${bill.total}</p>
                     <Link to="/patient/bills" className="text-xs font-bold text-[#5F6FFF] hover:underline block">
                       View Invoice
                     </Link>

@@ -131,7 +131,7 @@ export const DoctorsPage: React.FC = () => {
                   <div className="px-4 pb-4 pt-2 flex items-center justify-between border-t border-slate-100 mt-2">
                     <div>
                       <span className="text-[10px] text-slate-400 font-medium block">Consultation Fee</span>
-                      <span className="text-xs font-extrabold text-slate-900">₹{doc.fees}</span>
+                      <span className="text-xs font-extrabold text-slate-900">${doc.fees}</span>
                     </div>
                     <span className="text-xs font-semibold text-[#5F6FFF] group-hover:translate-x-0.5 transition-transform">
                       Book Visit →

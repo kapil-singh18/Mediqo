@@ -66,7 +66,7 @@ export const AppointmentCard: React.FC<AppointmentCardProps> = ({
         <div className="flex sm:flex-col items-center sm:items-end justify-between">
           <StatusBadge status={appointment.status} />
           <p className="text-sm font-extrabold text-slate-900 mt-2">
-            ₹{appointment.fees}
+            ${appointment.fees}
           </p>
         </div>
       </div>

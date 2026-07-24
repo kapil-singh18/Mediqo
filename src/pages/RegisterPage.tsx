@@ -89,7 +89,7 @@ export const RegisterPage: React.FC = () => {
               className="w-10 h-10 rounded-full object-cover border-2 border-white/30"
             />
             <div>
-              <p className="text-xs font-bold text-white leading-tight">Dr. Priya Patel</p>
+              <p className="text-xs font-bold text-white leading-tight">Dr. Sarah Johnson</p>
               <p className="text-[10px] text-blue-200">Senior Gynecologist & Care Advisor</p>
             </div>
           </div>

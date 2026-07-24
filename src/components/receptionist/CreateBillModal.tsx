@@ -241,7 +241,7 @@ export const CreateBillModal: React.FC<CreateBillModalProps> = ({
 
             <div>
               <label className="text-xs font-bold text-slate-700 uppercase tracking-wider mb-1 block">
-                Consultation Fee (₹)
+                Consultation Fee ($)
               </label>
               <input
                 type="number"
@@ -281,7 +281,7 @@ export const CreateBillModal: React.FC<CreateBillModalProps> = ({
                   />
                   <input
                     type="number"
-                    placeholder="Amount ₹"
+                    placeholder="Amount $"
                     value={item.amount}
                     onChange={(e) => updateItem(idx, 'amount', Number(e.target.value))}
                     className="w-24 px-3 py-2 text-xs font-bold bg-slate-50 border border-slate-200 rounded-xl"
@@ -304,7 +304,7 @@ export const CreateBillModal: React.FC<CreateBillModalProps> = ({
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="text-xs font-bold text-slate-700 uppercase tracking-wider mb-1 block">
-                Discount (₹)
+                Discount ($)
               </label>
               <input
                 type="number"
@@ -317,7 +317,7 @@ export const CreateBillModal: React.FC<CreateBillModalProps> = ({
 
             <div>
               <label className="text-xs font-bold text-slate-700 uppercase tracking-wider mb-1 block">
-                Tax / Service Surcharge (₹)
+                Tax / Service Surcharge ($)
               </label>
               <input
                 type="number"
@@ -340,10 +340,10 @@ export const CreateBillModal: React.FC<CreateBillModalProps> = ({
                 onChange={(e) => setPaymentMethod(e.target.value)}
                 className="w-full px-4 py-2.5 text-xs font-bold bg-slate-50 border border-slate-200 rounded-2xl text-slate-900"
               >
-                <option value="Cash">Cash</option>
                 <option value="Card">Credit / Debit Card</option>
+                <option value="Cash">Cash</option>
                 <option value="Insurance">Insurance Claim</option>
-                <option value="UPI/Online">UPI / Online Transfer</option>
+                <option value="Apple Pay">Apple Pay / Digital Wallet</option>
               </select>
             </div>
 
@@ -369,11 +369,11 @@ export const CreateBillModal: React.FC<CreateBillModalProps> = ({
             <div>
               <p className="text-[10px] font-bold text-purple-700 uppercase">Calculated Grand Total</p>
               <p className="text-xs text-purple-600">
-                Fee (₹{consultationFee}) + Items (₹{subtotal - consultationFee}) - Disc (₹{discount}) + Tax (₹{tax})
+                Fee (${consultationFee}) + Items (${subtotal - consultationFee}) - Disc (${discount}) + Tax (${tax})
               </p>
             </div>
             <div className="text-right">
-              <p className="text-xl font-black text-purple-900">₹{grandTotal}</p>
+              <p className="text-xl font-black text-purple-900">${grandTotal}</p>
             </div>
           </div>
 

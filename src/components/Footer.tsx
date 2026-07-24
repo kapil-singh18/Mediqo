@@ -56,7 +56,7 @@ export const Footer: React.FC = () => {
               </li>
               <li className="flex items-start gap-2 text-slate-600">
                 <MapPin className="w-3.5 h-3.5 text-[#5F6FFF] shrink-0 mt-0.5" />
-                <span>Mediqo Care Center, Bandra West, Mumbai, India</span>
+                <span>Mediqo Health Plaza, 742 Evergreen Ave, New York, NY 10001</span>
               </li>
             </ul>
           </div>

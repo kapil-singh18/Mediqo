@@ -7,8 +7,6 @@ import { BookAppointmentModal } from '../../components/receptionist/BookAppointm
 import { CreateBillModal } from '../../components/receptionist/CreateBillModal';
 
 import {
-  Users,
-  Search,
   UserPlus,
   Filter,
   Eye,
@@ -18,10 +16,12 @@ import {
   ChevronLeft,
   ChevronRight,
   Phone,
-  Mail,
-  MapPin,
   RefreshCw,
 } from 'lucide-react';
+import { PageHeader } from '../../components/ui/LayoutPrimitives';
+import { Card } from '../../components/ui/Card';
+import { Button } from '../../components/ui/Button';
+import { SearchInput } from '../../components/ui/SearchInput';
 
 export const PatientsPage: React.FC = () => {
   const [patients, setPatients] = useState<User[]>([]);
@@ -91,59 +91,56 @@ export const PatientsPage: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6 animate-in fade-in duration-300">
+    <div className="space-y-6">
       {/* Top Title & Quick Action */}
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 border-b border-slate-200 pb-6">
-        <div>
-          <h1 className="text-2xl font-black text-slate-900 tracking-tight flex items-center gap-2">
-            <Users className="w-6 h-6 text-purple-700" />
-            Patient Registry Management
-          </h1>
-          <p className="text-xs text-slate-500 mt-1 font-medium">
-            Search, register, edit and manage patient profile histories in the clinic system.
-          </p>
-        </div>
+      <PageHeader
+        title="Patient Registry Management"
+        subtitle="Search, register, edit and manage patient profile histories in the clinic system."
+        badgeText="Patient Records"
+        action={
+          <div className="flex items-center gap-2">
+            <Button
+              variant="primary"
+              onClick={() => {
+                setPatientToEdit(null);
+                setPatientModalOpen(true);
+              }}
+              leftIcon={<UserPlus className="w-4 h-4" />}
+            >
+              Register New Patient
+            </Button>
 
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => {
-              setPatientToEdit(null);
-              setPatientModalOpen(true);
-            }}
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-purple-700 hover:bg-purple-800 text-white text-xs font-bold transition-all shadow-md shadow-purple-500/20"
-          >
-            <UserPlus className="w-4 h-4" />
-            <span>Register New Patient</span>
-          </button>
-
-          <button
-            onClick={fetchPatients}
-            className="p-2.5 rounded-2xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 transition-colors"
-            title="Refresh Patients"
-          >
-            <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
-          </button>
-        </div>
-      </div>
+            <Button
+              variant="outline"
+              size="md"
+              onClick={fetchPatients}
+              title="Refresh Patients"
+            >
+              <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
+            </Button>
+          </div>
+        }
+      />
 
       {/* Search & Filter Toolbar */}
-      <div className="bg-white p-4 rounded-3xl border border-slate-200/80 shadow-2xs flex flex-col md:flex-row gap-4 items-center justify-between">
-        <div className="relative w-full md:w-96">
-          <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
-          <input
-            type="text"
-            placeholder="Search by name, phone, email..."
+      <Card className="p-4 border border-slate-200 flex flex-col md:flex-row gap-4 items-center justify-between">
+        <div className="w-full md:w-96">
+          <SearchInput
             value={search}
-            onChange={(e) => {
-              setSearch(e.target.value);
+            onChange={(val) => {
+              setSearch(val);
               setPage(1);
             }}
-            className="w-full pl-10 pr-4 py-2.5 text-xs font-bold bg-slate-50 border border-slate-200 rounded-2xl text-slate-900 focus:outline-none focus:ring-2 focus:ring-purple-600"
+            onClear={() => {
+              setSearch('');
+              setPage(1);
+            }}
+            placeholder="Search by name, phone, email..."
           />
         </div>
 
         <div className="flex items-center gap-3 w-full md:w-auto">
-          <div className="flex items-center gap-2 bg-slate-50 px-3 py-1.5 rounded-2xl border border-slate-200">
+          <div className="flex items-center gap-2 bg-slate-50 px-3 py-1.5 rounded-[8px] border border-slate-200">
             <Filter className="w-3.5 h-3.5 text-slate-400" />
             <span className="text-xs font-bold text-slate-500">Gender:</span>
             <select
@@ -165,16 +162,16 @@ export const PatientsPage: React.FC = () => {
             Total: {totalPatients}
           </span>
         </div>
-      </div>
+      </Card>
 
       {error && (
-        <div className="p-4 bg-rose-50 text-rose-700 border border-rose-200 rounded-2xl text-xs font-bold">
+        <div className="p-4 bg-rose-50 text-rose-700 border border-rose-200 rounded-[12px] text-xs font-bold">
           {error}
         </div>
       )}
 
       {/* Patient Table */}
-      <div className="bg-white rounded-3xl border border-slate-200/80 shadow-2xs overflow-hidden">
+      <Card className="border border-slate-200 overflow-hidden p-0">
         {loading ? (
           <div className="py-16 text-center text-xs text-slate-400">Loading patient records...</div>
         ) : patients.length === 0 ? (
@@ -198,10 +195,10 @@ export const PatientsPage: React.FC = () => {
                 {patients.map((pt) => {
                   const ptId = pt.id || (pt as any)._id;
                   return (
-                    <tr key={ptId} className="hover:bg-purple-50/30 transition-colors">
+                    <tr key={ptId} className="hover:bg-slate-50/80 transition-colors">
                       <td className="p-4 pl-6 font-extrabold text-slate-900">
                         <div className="flex items-center space-x-3">
-                          <div className="w-8 h-8 rounded-xl bg-purple-100 text-purple-700 font-bold flex items-center justify-center uppercase text-xs">
+                          <div className="w-8 h-8 rounded-[8px] bg-blue-50 text-[#5F6FFF] font-bold flex items-center justify-center uppercase text-xs">
                             {pt.name?.charAt(0) || 'P'}
                           </div>
                           <div>
@@ -219,7 +216,7 @@ export const PatientsPage: React.FC = () => {
                       </td>
 
                       <td className="p-4">
-                        <span className="bg-slate-100 px-2.5 py-1 rounded-lg text-slate-700 font-bold">
+                        <span className="bg-slate-100 px-2.5 py-1 rounded-[8px] text-slate-700 font-bold">
                           {pt.age ? `${pt.age} yrs` : 'N/A'} • {pt.gender || 'N/A'}
                         </span>
                       </td>
@@ -236,7 +233,7 @@ export const PatientsPage: React.FC = () => {
                         <div className="flex items-center justify-end space-x-1.5">
                           <button
                             onClick={() => setSelectedPatientIdDetails(ptId)}
-                            className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors"
+                            className="p-2 rounded-[8px] bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors"
                             title="View Patient Details & History"
                           >
                             <Eye className="w-4 h-4" />
@@ -247,7 +244,7 @@ export const PatientsPage: React.FC = () => {
                               setPatientToEdit(pt);
                               setPatientModalOpen(true);
                             }}
-                            className="p-2 rounded-xl bg-purple-50 hover:bg-purple-100 text-purple-700 transition-colors"
+                            className="p-2 rounded-[8px] bg-blue-50 hover:bg-blue-100 text-[#5F6FFF] transition-colors"
                             title="Edit Patient Info"
                           >
                             <Edit className="w-4 h-4" />
@@ -258,7 +255,7 @@ export const PatientsPage: React.FC = () => {
                               setSelectedPatientForAction(pt);
                               setBookModalOpen(true);
                             }}
-                            className="p-2 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 transition-colors"
+                            className="p-2 rounded-[8px] bg-indigo-50 hover:bg-indigo-100 text-indigo-700 transition-colors"
                             title="Book Appointment"
                           >
                             <Calendar className="w-4 h-4" />
@@ -269,7 +266,7 @@ export const PatientsPage: React.FC = () => {
                               setSelectedPatientForAction(pt);
                               setBillModalOpen(true);
                             }}
-                            className="p-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-700 transition-colors"
+                            className="p-2 rounded-[8px] bg-emerald-50 hover:bg-emerald-100 text-emerald-700 transition-colors"
                             title="Issue Invoice"
                           >
                             <Receipt className="w-4 h-4" />
@@ -294,21 +291,21 @@ export const PatientsPage: React.FC = () => {
               <button
                 disabled={page <= 1}
                 onClick={() => setPage(page - 1)}
-                className="p-2 rounded-xl border border-slate-200 bg-white text-slate-600 disabled:opacity-40 hover:bg-slate-50"
+                className="p-2 rounded-[8px] border border-slate-200 bg-white text-slate-600 disabled:opacity-40 hover:bg-slate-50"
               >
                 <ChevronLeft className="w-4 h-4" />
               </button>
               <button
                 disabled={page >= totalPages}
                 onClick={() => setPage(page + 1)}
-                className="p-2 rounded-xl border border-slate-200 bg-white text-slate-600 disabled:opacity-40 hover:bg-slate-50"
+                className="p-2 rounded-[8px] border border-slate-200 bg-white text-slate-600 disabled:opacity-40 hover:bg-slate-50"
               >
                 <ChevronRight className="w-4 h-4" />
               </button>
             </div>
           </div>
         )}
-      </div>
+      </Card>
 
       {/* Modals */}
       <PatientModal
