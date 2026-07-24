@@ -15,6 +15,8 @@ export interface User {
   qualification?: string;
   bio?: string;
   clinicAddress?: string;
+  deskLocation?: string;
+  shiftHours?: string;
   workingDays?: string[];
   availableSlots?: string[];
   consultationDuration?: number;
@@ -90,17 +92,34 @@ export interface Prescription {
   updatedAt?: string;
 }
 
+export interface BillItem {
+  description: string;
+  amount: number;
+  quantity?: number;
+}
+
 export interface Bill {
   _id: string;
   billNumber: string;
   patientId: string;
+  patientName?: string;
+  patientPhone?: string;
+  doctorId?: string;
   doctorName: string;
-  doctorSpeciality: string;
-  appointmentDate: string;
+  doctorSpeciality?: string;
+  appointmentId?: string;
+  appointmentDate?: string;
   consultationFee: number;
-  status: 'Paid' | 'Pending';
+  items?: BillItem[];
+  discount?: number;
+  tax?: number;
+  paymentMethod?: string;
+  status: 'Paid' | 'Pending' | 'Partial' | 'Overdue';
   date: string;
+  dueDate?: string;
   total: number;
+  notes?: string;
   createdAt?: string;
+  updatedAt?: string;
 }
 

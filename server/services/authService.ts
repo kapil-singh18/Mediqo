@@ -219,7 +219,7 @@ export class AuthService {
   }
 
   /**
-   * Seed 3 Doctors and 1 Receptionist
+   * Seed Indian Doctors, Receptionist, Patients, Appointments, Prescriptions, and Bills
    */
   static async seedUsers() {
     const defaultPassword = 'password123';
@@ -227,59 +227,174 @@ export class AuthService {
     const hashedPassword = await bcrypt.hash(defaultPassword, salt);
 
     const initialUsers = [
+      // Doctors with Indian Names
       {
-        name: 'Dr. Richard James',
+        name: 'Dr. Rajesh Sharma',
+        email: 'dr.rajesh@mediqo.com',
+        role: UserRole.DOCTOR,
+        phone: '+91 98765-43210',
+        speciality: 'General Physician',
+        experience: '12 Years',
+        qualification: 'MBBS, MD (General Medicine)',
+        clinicAddress: 'Mediqo Care Center, Bandra West, Mumbai',
+        bio: 'Senior consultant specializing in internal medicine, chronic disease management, and preventive care.',
+      },
+      {
+        name: 'Dr. Priya Patel',
+        email: 'dr.priya@mediqo.com',
+        role: UserRole.DOCTOR,
+        phone: '+91 98765-43211',
+        speciality: 'Gynecologist',
+        experience: '8 Years',
+        qualification: 'MBBS, MS (Obstetrics & Gynecology)',
+        clinicAddress: 'Mediqo Care Center, Indiranagar, Bengaluru',
+        bio: 'Specialist in women’s health, maternity care, and laparoscopic reproductive surgery.',
+      },
+      {
+        name: 'Dr. Ananya Iyer',
+        email: 'dr.ananya@mediqo.com',
+        role: UserRole.DOCTOR,
+        phone: '+91 98765-43212',
+        speciality: 'Dermatologist',
+        experience: '6 Years',
+        qualification: 'MBBS, MD (Dermatology & Cosmetology)',
+        clinicAddress: 'Mediqo Care Center, Anna Nagar, Chennai',
+        bio: 'Consultant dermatologist focused on clinical skincare, trichology, and cosmetic dermatology.',
+      },
+      {
+        name: 'Dr. Vikram Malhotra',
+        email: 'dr.vikram@mediqo.com',
+        role: UserRole.DOCTOR,
+        phone: '+91 98765-43213',
+        speciality: 'Cardiologist',
+        experience: '15 Years',
+        qualification: 'MBBS, DM (Cardiology)',
+        clinicAddress: 'Mediqo Care Center, Connaught Place, New Delhi',
+        bio: 'Interventional cardiologist providing comprehensive heart disease risk assessment and care.',
+      },
+      {
+        name: 'Dr. Amit Verma',
+        email: 'dr.amit@mediqo.com',
+        role: UserRole.DOCTOR,
+        phone: '+91 98765-43214',
+        speciality: 'Orthopedic Surgeon',
+        experience: '10 Years',
+        qualification: 'MBBS, MS (Orthopedics)',
+        clinicAddress: 'Mediqo Care Center, Koregaon Park, Pune',
+        bio: 'Expert in joint preservation, sports injury rehabilitation, and joint replacement therapy.',
+      },
+
+      // Legacy Aliases for Seamless Single-Click Login Compatibility
+      {
+        name: 'Dr. Rajesh Sharma',
         email: 'dr.richard@mediqo.com',
         role: UserRole.DOCTOR,
-        phone: '+1 555-0101',
+        phone: '+91 98765-43210',
         speciality: 'General Physician',
-        experience: '4 Years',
+        experience: '12 Years',
+        qualification: 'MBBS, MD',
       },
       {
-        name: 'Dr. Emily Larson',
+        name: 'Dr. Priya Patel',
         email: 'dr.emily@mediqo.com',
         role: UserRole.DOCTOR,
-        phone: '+1 555-0102',
+        phone: '+91 98765-43211',
         speciality: 'Gynecologist',
-        experience: '3 Years',
+        experience: '8 Years',
+        qualification: 'MBBS, MS',
       },
       {
-        name: 'Dr. Sarah Patel',
+        name: 'Dr. Ananya Iyer',
         email: 'dr.sarah@mediqo.com',
         role: UserRole.DOCTOR,
-        phone: '+1 555-0103',
+        phone: '+91 98765-43212',
         speciality: 'Dermatologist',
-        experience: '1 Year',
+        experience: '6 Years',
+        qualification: 'MBBS, MD',
       },
+
+      // Receptionist
       {
-        name: 'Sarah Jenkins',
+        name: 'Sunita Rao',
         email: 'receptionist@mediqo.com',
         role: UserRole.RECEPTIONIST,
-        phone: '+1 555-0100',
-        speciality: '',
-        experience: '',
+        phone: '+91 98765-43200',
+        speciality: 'Front Desk Lead',
+        experience: '5 Years',
+        deskLocation: 'Main Reception Desk - Ground Floor',
+        shiftHours: '08:00 AM - 04:00 PM',
+      },
+
+      // Patients
+      {
+        name: 'Aarav Mehta',
+        email: 'patient@mediqo.com',
+        role: UserRole.PATIENT,
+        phone: '+91 98111-22334',
+        age: 32,
+        gender: 'Male',
+        address: 'B-402, Sea View Apartments, Juhu, Mumbai',
+        bio: 'No known drug allergies. History of seasonal hypertension.',
+      },
+      {
+        name: 'Aarav Mehta',
+        email: 'aarav@mediqo.com',
+        role: UserRole.PATIENT,
+        phone: '+91 98111-22334',
+        age: 32,
+        gender: 'Male',
+        address: 'B-402, Sea View Apartments, Juhu, Mumbai',
+      },
+      {
+        name: 'Ananya Gupta',
+        email: 'ananya.g@mediqo.com',
+        role: UserRole.PATIENT,
+        phone: '+91 98222-33445',
+        age: 28,
+        gender: 'Female',
+        address: 'House #12, Defence Colony, New Delhi',
+      },
+      {
+        name: 'Rahul Verma',
+        email: 'rahul.v@mediqo.com',
+        role: UserRole.PATIENT,
+        phone: '+91 98333-44556',
+        age: 45,
+        gender: 'Male',
+        address: 'Flat 101, Green Glen Layout, Bellandur, Bengaluru',
+      },
+      {
+        name: 'Priya Singh',
+        email: 'priya.s@mediqo.com',
+        role: UserRole.PATIENT,
+        phone: '+91 98444-55667',
+        age: 36,
+        gender: 'Female',
+        address: 'Villa 15, Kalyani Nagar, Pune',
       },
     ];
 
     let createdCount = 0;
+    const createdUserDocs: Record<string, any> = {};
 
     for (const u of initialUsers) {
       const emailLower = u.email.toLowerCase().trim();
 
       if (getIsDbConnected()) {
-        const exists = await (User as any).findOne({ email: emailLower });
-        if (!exists) {
-          await (User as any).create({
+        let userDoc = await (User as any).findOne({ email: emailLower });
+        if (!userDoc) {
+          userDoc = await (User as any).create({
             ...u,
             email: emailLower,
             password: hashedPassword,
           });
           createdCount++;
         }
+        createdUserDocs[emailLower] = userDoc;
       } else {
         if (!memoryUserStore.has(emailLower)) {
           const userId = 'seed_' + emailLower.replace(/[^a-z0-9]/g, '_');
-          memoryUserStore.set(emailLower, {
+          const memUser = {
             _id: userId,
             id: userId,
             ...u,
@@ -287,13 +402,165 @@ export class AuthService {
             password: hashedPassword,
             createdAt: new Date(),
             updatedAt: new Date(),
-          });
+          };
+          memoryUserStore.set(emailLower, memUser);
+          createdUserDocs[emailLower] = memUser;
           createdCount++;
+        } else {
+          createdUserDocs[emailLower] = memoryUserStore.get(emailLower);
         }
       }
     }
 
-    console.log(`Seed script execution completed. Seeded ${createdCount} accounts.`);
+    // Seed Appointments, Prescriptions & Bills if DB is connected
+    if (getIsDbConnected()) {
+      try {
+        const { Appointment, AppointmentStatus } = await import('../models/Appointment.js');
+        const { Prescription } = await import('../models/Prescription.js');
+        const { Bill } = await import('../models/Bill.js');
+
+        const aptCount = await (Appointment as any).countDocuments();
+        if (aptCount === 0) {
+          const rajesh = createdUserDocs['dr.rajesh@mediqo.com'];
+          const priya = createdUserDocs['dr.priya@mediqo.com'];
+          const ananyaDr = createdUserDocs['dr.ananya@mediqo.com'];
+          const aarav = createdUserDocs['patient@mediqo.com'];
+          const ananyaPt = createdUserDocs['ananya.g@mediqo.com'];
+          const rahul = createdUserDocs['rahul.v@mediqo.com'];
+
+          const todayStr = new Date().toISOString().split('T')[0];
+
+          if (rajesh && aarav) {
+            // Appointment 1 - Today
+            const apt1 = await (Appointment as any).create({
+              patientId: aarav._id.toString(),
+              patientName: aarav.name,
+              patientPhone: aarav.phone,
+              patientAge: aarav.age || 32,
+              patientGender: aarav.gender || 'Male',
+              doctorId: rajesh._id.toString(),
+              doctorName: rajesh.name,
+              doctorSpeciality: rajesh.speciality,
+              fees: 500,
+              appointmentDate: todayStr,
+              timeSlot: '10:00 AM',
+              reason: 'Routine health checkup & mild fatigue evaluation',
+              status: AppointmentStatus.SCHEDULED,
+            });
+
+            // Bill for Apt 1
+            await (Bill as any).create({
+              billNumber: `INV-${todayStr.replace(/-/g, '')}-1001`,
+              patientId: aarav._id.toString(),
+              patientName: aarav.name,
+              patientPhone: aarav.phone,
+              doctorId: rajesh._id.toString(),
+              doctorName: rajesh.name,
+              doctorSpeciality: rajesh.speciality,
+              appointmentId: apt1._id.toString(),
+              appointmentDate: todayStr,
+              consultationFee: 500,
+              items: [
+                { description: 'Consultation Fee', amount: 500, quantity: 1 },
+                { description: 'CBC Complete Blood Count Lab Test', amount: 350, quantity: 1 },
+              ],
+              discount: 50,
+              tax: 30,
+              paymentMethod: 'UPI / GPay',
+              status: 'Paid',
+              date: todayStr,
+              dueDate: todayStr,
+              total: 830,
+              notes: 'Receipt generated at reception.',
+            });
+          }
+
+          if (priya && ananyaPt) {
+            // Appointment 2 - Completed
+            const apt2 = await (Appointment as any).create({
+              patientId: ananyaPt._id.toString(),
+              patientName: ananyaPt.name,
+              patientPhone: ananyaPt.phone,
+              patientAge: ananyaPt.age || 28,
+              patientGender: ananyaPt.gender || 'Female',
+              doctorId: priya._id.toString(),
+              doctorName: priya.name,
+              doctorSpeciality: priya.speciality,
+              fees: 600,
+              appointmentDate: '2026-07-20',
+              timeSlot: '02:00 PM',
+              reason: 'Annual wellness check and vitamin evaluation',
+              status: AppointmentStatus.COMPLETED,
+            });
+
+            // Prescription for Apt 2
+            await (Prescription as any).create({
+              patientId: ananyaPt._id.toString(),
+              patientName: ananyaPt.name,
+              patientPhone: ananyaPt.phone,
+              doctorId: priya._id.toString(),
+              doctorName: priya.name,
+              doctorSpeciality: priya.speciality,
+              appointmentId: apt2._id.toString(),
+              appointmentDate: '2026-07-20',
+              diagnosis: 'Mild Vitamin D deficiency & fatigue',
+              instructions: 'Take Vitamin D3 capsule weekly after meals with milk. Stay hydrated.',
+              followUpDate: '2026-08-20',
+              status: 'Completed',
+              medicines: [
+                { name: 'Vitamin D3 60,000 IU Capsule', dosage: '1 Capsule', frequency: 'Once weekly', duration: '8 Weeks' },
+                { name: 'Multivitamin & Mineral Tablet', dosage: '1 Tablet', frequency: 'Once daily after breakfast', duration: '30 Days' },
+              ],
+            });
+
+            // Bill 2
+            await (Bill as any).create({
+              billNumber: `INV-20260720-1002`,
+              patientId: ananyaPt._id.toString(),
+              patientName: ananyaPt.name,
+              patientPhone: ananyaPt.phone,
+              doctorId: priya._id.toString(),
+              doctorName: priya.name,
+              doctorSpeciality: priya.speciality,
+              appointmentId: apt2._id.toString(),
+              appointmentDate: '2026-07-20',
+              consultationFee: 600,
+              items: [{ description: 'Specialist Consultation', amount: 600, quantity: 1 }],
+              discount: 0,
+              tax: 0,
+              paymentMethod: 'Credit Card',
+              status: 'Paid',
+              date: '2026-07-20',
+              dueDate: '2026-07-20',
+              total: 600,
+            });
+          }
+
+          if (ananyaDr && rahul) {
+            // Appointment 3 - Scheduled
+            await (Appointment as any).create({
+              patientId: rahul._id.toString(),
+              patientName: rahul.name,
+              patientPhone: rahul.phone,
+              patientAge: rahul.age || 45,
+              patientGender: rahul.gender || 'Male',
+              doctorId: ananyaDr._id.toString(),
+              doctorName: ananyaDr.name,
+              doctorSpeciality: ananyaDr.speciality,
+              fees: 550,
+              appointmentDate: todayStr,
+              timeSlot: '04:00 PM',
+              reason: 'Skin allergic reaction and rash consultation',
+              status: AppointmentStatus.SCHEDULED,
+            });
+          }
+        }
+      } catch (seedErr) {
+        console.error('Error seeding secondary collections:', seedErr);
+      }
+    }
+
+    console.log(`Mediqo Seed script execution completed. Seeded accounts & sample records.`);
     return { createdCount, totalSeed: initialUsers.length };
   }
 }

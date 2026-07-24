@@ -17,6 +17,8 @@ export interface IUser {
   qualification?: string;
   bio?: string;
   clinicAddress?: string;
+  deskLocation?: string;
+  shiftHours?: string;
   workingDays?: string[];
   availableSlots?: string[];
   consultationDuration?: number;
@@ -90,6 +92,14 @@ const userSchema = new Schema<IUser>(
     clinicAddress: {
       type: String,
       default: '',
+    },
+    deskLocation: {
+      type: String,
+      default: 'Main Reception Desk',
+    },
+    shiftHours: {
+      type: String,
+      default: '08:00 AM - 04:00 PM',
     },
     workingDays: {
       type: [String],

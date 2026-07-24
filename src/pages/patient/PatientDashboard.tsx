@@ -146,8 +146,8 @@ export const PatientDashboard: React.FC = () => {
             </span>
           </div>
           <div>
-            <p className="text-xs font-bold text-slate-400 uppercase tracking-wider">Pending Bills</p>
-            <p className="text-2xl font-extrabold text-slate-900 mt-1">${pendingTotal} Total</p>
+            <p className="text-[#5F6FFF] font-bold text-xs">Pending Invoices</p>
+            <p className="text-2xl font-extrabold text-slate-900 mt-1">₹{pendingTotal} Total</p>
           </div>
           <Link
             to="/patient/bills"

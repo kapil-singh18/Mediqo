@@ -59,20 +59,30 @@ export const LoginPage: React.FC = () => {
         {/* Demo Quick Fill Buttons for ease of preview testing */}
         <div className="bg-blue-50/60 p-3.5 rounded-2xl border border-blue-100 space-y-2">
           <p className="text-[10px] font-bold text-blue-800 uppercase tracking-wider">Quick Demo Login Fill:</p>
-          <div className="grid grid-cols-2 gap-1.5 text-[11px]">
+          <div className="grid grid-cols-3 gap-1.5 text-[11px]">
             <button
               type="button"
-              onClick={() => handleDemoFill('dr.richard@mediqo.com')}
-              className="px-2.5 py-1.5 rounded-lg bg-white border border-blue-200 text-blue-700 font-semibold hover:bg-blue-100 text-left truncate"
+              onClick={() => handleDemoFill('dr.rajesh@mediqo.com')}
+              className="px-2 py-1.5 rounded-lg bg-white border border-blue-200 text-blue-700 font-semibold hover:bg-blue-100 text-left truncate"
+              title="Dr. Rajesh Sharma"
             >
-              👨‍⚕️ Dr. Richard (Doctor)
+              👨‍⚕️ Dr. Rajesh
             </button>
             <button
               type="button"
               onClick={() => handleDemoFill('receptionist@mediqo.com')}
-              className="px-2.5 py-1.5 rounded-lg bg-white border border-blue-200 text-purple-700 font-semibold hover:bg-purple-50 text-left truncate"
+              className="px-2 py-1.5 rounded-lg bg-white border border-blue-200 text-purple-700 font-semibold hover:bg-purple-50 text-left truncate"
+              title="Sunita Rao"
             >
-              👩‍💼 Receptionist
+              👩‍💼 Sunita (Receptionist)
+            </button>
+            <button
+              type="button"
+              onClick={() => handleDemoFill('patient@mediqo.com')}
+              className="px-2 py-1.5 rounded-lg bg-white border border-blue-200 text-emerald-700 font-semibold hover:bg-emerald-50 text-left truncate"
+              title="Aarav Mehta"
+            >
+              👤 Aarav (Patient)
             </button>
           </div>
         </div>

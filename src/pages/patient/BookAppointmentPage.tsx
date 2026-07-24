@@ -137,7 +137,7 @@ export const BookAppointmentPage: React.FC = () => {
                       {isSelected && <CheckCircle2 className="w-4 h-4 text-[#5F6FFF] flex-shrink-0" />}
                     </div>
                     <p className="text-xs text-[#5F6FFF] font-medium truncate">{doc.speciality}</p>
-                    <p className="text-[11px] text-slate-400 mt-0.5">{doc.experience} • Fee: ${doc.fees}</p>
+                    <p className="text-[11px] text-slate-400 mt-0.5">{doc.experience} • Fee: ₹{doc.fees}</p>
                   </div>
                 </div>
               );
@@ -252,7 +252,7 @@ export const BookAppointmentPage: React.FC = () => {
             <div>
               <p className="text-xs text-slate-400 font-medium">Booking with</p>
               <p className="text-base font-extrabold text-white">{selectedDoctor.name}</p>
-              <p className="text-xs text-[#5F6FFF] font-bold">${selectedDoctor.fees} Consultation Fee</p>
+              <p className="text-xs text-[#5F6FFF] font-bold">₹{selectedDoctor.fees} Consultation Fee</p>
             </div>
           </div>
 

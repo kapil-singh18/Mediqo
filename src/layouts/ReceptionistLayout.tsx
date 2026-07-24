@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Outlet, Link, useNavigate, useLocation } from 'react-router-dom';
-import { Stethoscope, LogOut, ChevronDown, Calendar, Users, ClipboardList, Home } from 'lucide-react';
+import { Stethoscope, LogOut, ChevronDown, Calendar, Users, Receipt, Home, User as UserIcon } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 
 export const ReceptionistLayout: React.FC = () => {
@@ -16,9 +16,9 @@ export const ReceptionistLayout: React.FC = () => {
 
   const navItems = [
     { label: 'Reception Console', path: '/receptionist', icon: Home },
-    { label: 'Appointments Desk', path: '/receptionist#appointments', icon: Calendar },
-    { label: 'Patient Registry', path: '/receptionist#patients', icon: Users },
-    { label: 'Token Queue', path: '/receptionist#queue', icon: ClipboardList },
+    { label: 'Patient Registry', path: '/receptionist/patients', icon: Users },
+    { label: 'Appointments Desk', path: '/receptionist/appointments', icon: Calendar },
+    { label: 'Billing & Invoices', path: '/receptionist/billing', icon: Receipt },
   ];
 
   return (
@@ -80,6 +80,14 @@ export const ReceptionistLayout: React.FC = () => {
                     <p className="text-xs font-bold text-gray-900">{user?.name}</p>
                     <p className="text-xs text-gray-500 truncate">{user?.email}</p>
                   </div>
+                  <Link
+                    to="/receptionist/profile"
+                    onClick={() => setDropdownOpen(false)}
+                    className="w-full flex items-center px-4 py-2 text-xs font-medium text-gray-700 hover:bg-gray-50 text-left border-b border-gray-100"
+                  >
+                    <UserIcon className="w-4 h-4 mr-2 text-purple-600" />
+                    My Desk Profile
+                  </Link>
                   <button
                     onClick={handleLogout}
                     className="w-full flex items-center px-4 py-2 text-xs font-medium text-red-600 hover:bg-red-50 text-left"

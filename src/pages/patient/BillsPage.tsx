@@ -53,11 +53,11 @@ export const BillsPage: React.FC = () => {
         <div className="flex items-center space-x-4">
           <div className="bg-emerald-50 border border-emerald-100 p-3.5 px-5 rounded-2xl text-center">
             <span className="text-[10px] font-bold text-emerald-700 uppercase tracking-wider">Paid Total</span>
-            <p className="text-lg font-extrabold text-emerald-800">${totalPaid}</p>
+            <p className="text-lg font-extrabold text-emerald-800">₹{totalPaid}</p>
           </div>
           <div className="bg-amber-50 border border-amber-100 p-3.5 px-5 rounded-2xl text-center">
             <span className="text-[10px] font-bold text-amber-700 uppercase tracking-wider">Pending Due</span>
-            <p className="text-lg font-extrabold text-amber-800">${totalPending}</p>
+            <p className="text-lg font-extrabold text-amber-800">₹{totalPending}</p>
           </div>
         </div>
       </div>
@@ -99,13 +99,13 @@ export const BillsPage: React.FC = () => {
                       {bill.appointmentDate}
                     </td>
                     <td className="py-4 px-6 font-medium text-slate-800">
-                      ${bill.consultationFee}
+                      ₹{bill.consultationFee}
                     </td>
                     <td className="py-4 px-6 whitespace-nowrap">
                       <StatusBadge status={bill.status} />
                     </td>
                     <td className="py-4 px-6 text-right font-extrabold text-slate-900 text-sm whitespace-nowrap">
-                      ${bill.total}
+                      ₹{bill.total}
                     </td>
                   </tr>
                 ))}

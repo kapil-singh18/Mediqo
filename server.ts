@@ -13,6 +13,7 @@ import appointmentRoutes from './server/routes/appointmentRoutes.js';
 import prescriptionRoutes from './server/routes/prescriptionRoutes.js';
 import billRoutes from './server/routes/billRoutes.js';
 import doctorRoutes from './server/routes/doctorRoutes.js';
+import receptionistRoutes from './server/routes/receptionistRoutes.js';
 import { errorHandler } from './server/middleware/errorHandler.js';
 
 const PORT = Number(process.env.PORT) || 3000;
@@ -41,6 +42,7 @@ async function startServer() {
   app.use('/api/prescriptions', prescriptionRoutes);
   app.use('/api/bills', billRoutes);
   app.use('/api/doctor', doctorRoutes);
+  app.use('/api/receptionist', receptionistRoutes);
 
   // Global Error Handler for API
   app.use(errorHandler);

@@ -128,7 +128,7 @@ export const DoctorsPage: React.FC = () => {
                   </div>
 
                   <div className="px-4 pb-4 pt-2 flex items-center justify-between border-t border-slate-100 mt-2">
-                    <span className="text-xs font-bold text-slate-800">${doc.fees}</span>
+                    <span className="text-xs font-bold text-slate-800">₹{doc.fees}</span>
                     <span className="text-xs font-semibold text-[#5F6FFF]">Book Visit →</span>
                   </div>
                 </Link>

@@ -27,6 +27,10 @@ import { CreateEditPrescriptionPage } from '../pages/doctor/CreateEditPrescripti
 import { DoctorAvailabilityPage } from '../pages/doctor/DoctorAvailabilityPage';
 import { DoctorProfilePage } from '../pages/doctor/DoctorProfilePage';
 import { ReceptionistDashboard } from '../pages/receptionist/ReceptionistDashboard';
+import { PatientsPage } from '../pages/receptionist/PatientsPage';
+import { ReceptionistAppointmentsPage } from '../pages/receptionist/ReceptionistAppointmentsPage';
+import { BillingPage } from '../pages/receptionist/BillingPage';
+import { ReceptionistProfilePage } from '../pages/receptionist/ReceptionistProfilePage';
 
 import { ProtectedRoute } from '../components/ProtectedRoute';
 import { UserRole } from '../constants';
@@ -90,6 +94,10 @@ export const AppRoutes: React.FC = () => {
         }
       >
         <Route index element={<ReceptionistDashboard />} />
+        <Route path="patients" element={<PatientsPage />} />
+        <Route path="appointments" element={<ReceptionistAppointmentsPage />} />
+        <Route path="billing" element={<BillingPage />} />
+        <Route path="profile" element={<ReceptionistProfilePage />} />
       </Route>
 
       {/* Fallback Catch-all */}

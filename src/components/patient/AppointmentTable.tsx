@@ -131,7 +131,7 @@ export const AppointmentTable: React.FC<AppointmentTableProps> = ({
                     <span className="text-slate-600">{apt.reason}</span>
                   </td>
                   <td className="py-4 px-6 font-bold text-slate-900 whitespace-nowrap">
-                    ${apt.fees}
+                    ₹{apt.fees}
                   </td>
                   <td className="py-4 px-6 whitespace-nowrap">
                     <StatusBadge status={apt.status} />
