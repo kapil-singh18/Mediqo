@@ -2,12 +2,13 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Link, useNavigate } from 'react-router-dom';
-import { Mail, Lock, Stethoscope, ArrowRight } from 'lucide-react';
+import { Mail, Lock, Stethoscope, ArrowRight, ShieldCheck, CheckCircle2, UserCheck } from 'lucide-react';
 import { loginSchema, LoginFormValues } from '../validations/auth';
 import { useAuth } from '../hooks/useAuth';
-import { Input } from '../components/Input';
-import { Button } from '../components/Button';
+import { Input } from '../components/ui/Input';
+import { Button } from '../components/ui/Button';
 import { UserRole, ROLE_REDIRECTS } from '../constants';
+import { doctorsData } from '../assets/assets';
 
 export const LoginPage: React.FC = () => {
   const { login } = useAuth();
@@ -42,85 +43,148 @@ export const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-[80vh] flex items-center justify-center px-4 py-12">
-      <div className="w-full max-w-md bg-white rounded-3xl border border-gray-100 shadow-xl p-8 space-y-6">
+    <div className="min-h-[82vh] flex items-center justify-center px-4 py-12">
+      <div className="w-full max-w-4xl bg-white rounded-[20px] border border-slate-200/80 shadow-xl overflow-hidden grid grid-cols-1 md:grid-cols-12">
         
-        {/* Header */}
-        <div className="text-center space-y-2">
-          <div className="w-12 h-12 rounded-2xl bg-blue-600 text-white flex items-center justify-center mx-auto shadow-md shadow-blue-500/20">
-            <Stethoscope className="w-6 h-6" />
+        {/* Left Branding / Feature Column */}
+        <div className="md:col-span-5 bg-[#5F6FFF] p-8 sm:p-10 text-white flex flex-col justify-between relative overflow-hidden hidden md:flex">
+          <div className="absolute -right-10 -bottom-10 w-64 h-64 bg-white/10 rounded-full blur-2xl pointer-events-none" />
+
+          <div className="space-y-6 z-10">
+            <div className="flex items-center gap-2.5">
+              <div className="w-9 h-9 rounded-[10px] bg-white text-[#5F6FFF] flex items-center justify-center font-bold shadow-md">
+                <Stethoscope className="w-5 h-5" />
+              </div>
+              <span className="text-xl font-extrabold tracking-tight">Mediqo.</span>
+            </div>
+
+            <div className="space-y-3 pt-4">
+              <span className="inline-block px-3 py-1 bg-white/15 text-blue-100 rounded-full text-[10px] font-bold uppercase tracking-wider">
+                Healthcare Portal Access
+              </span>
+              <h3 className="text-2xl font-extrabold leading-snug">
+                Welcome Back to Mediqo Care
+              </h3>
+              <p className="text-xs text-blue-100 leading-relaxed font-normal">
+                Sign in to manage appointments, access medical records, or review doctor schedules seamlessly.
+              </p>
+            </div>
+
+            <div className="space-y-2.5 pt-2 text-xs text-blue-100">
+              <div className="flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-emerald-300 shrink-0" />
+                <span>Instant Online Appointment Scheduling</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-emerald-300 shrink-0" />
+                <span>Verified Multi-Specialty Doctors</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-emerald-300 shrink-0" />
+                <span>24/7 Digital Prescriptions & Invoices</span>
+              </div>
+            </div>
           </div>
-          <h2 className="text-2xl font-extrabold text-gray-900 tracking-tight">Login to Mediqo</h2>
-          <p className="text-xs text-gray-500">
-            Enter your account credentials to access your portal.
-          </p>
+
+          {/* Featured Doctor Avatar Banner */}
+          <div className="z-10 pt-6 border-t border-white/15 flex items-center gap-3">
+            <img
+              src={doctorsData[0].image}
+              alt="Doctor preview"
+              className="w-10 h-10 rounded-full object-cover border-2 border-white/30"
+            />
+            <div>
+              <p className="text-xs font-bold text-white leading-tight">Dr. Rajesh Sharma</p>
+              <p className="text-[10px] text-blue-200">Chief Medical Director</p>
+            </div>
+          </div>
         </div>
 
-        {/* Demo Quick Fill Buttons for ease of preview testing */}
-        <div className="bg-blue-50/60 p-3.5 rounded-2xl border border-blue-100 space-y-2">
-          <p className="text-[10px] font-bold text-blue-800 uppercase tracking-wider">Quick Demo Login Fill:</p>
-          <div className="grid grid-cols-3 gap-1.5 text-[11px]">
-            <button
-              type="button"
-              onClick={() => handleDemoFill('dr.rajesh@mediqo.com')}
-              className="px-2 py-1.5 rounded-lg bg-white border border-blue-200 text-blue-700 font-semibold hover:bg-blue-100 text-left truncate"
-              title="Dr. Rajesh Sharma"
-            >
-              👨‍⚕️ Dr. Rajesh
-            </button>
-            <button
-              type="button"
-              onClick={() => handleDemoFill('receptionist@mediqo.com')}
-              className="px-2 py-1.5 rounded-lg bg-white border border-blue-200 text-purple-700 font-semibold hover:bg-purple-50 text-left truncate"
-              title="Sunita Rao"
-            >
-              👩‍💼 Sunita (Receptionist)
-            </button>
-            <button
-              type="button"
-              onClick={() => handleDemoFill('patient@mediqo.com')}
-              className="px-2 py-1.5 rounded-lg bg-white border border-blue-200 text-emerald-700 font-semibold hover:bg-emerald-50 text-left truncate"
-              title="Aarav Mehta"
-            >
-              👤 Aarav (Patient)
-            </button>
+        {/* Right Form Column */}
+        <div className="md:col-span-7 p-8 sm:p-10 flex flex-col justify-center space-y-6">
+          
+          {/* Header */}
+          <div className="space-y-1.5">
+            <div className="flex items-center gap-2 md:hidden">
+              <div className="w-8 h-8 rounded-[8px] bg-[#5F6FFF] text-white flex items-center justify-center font-bold">
+                <Stethoscope className="w-4 h-4" />
+              </div>
+              <span className="text-lg font-extrabold text-slate-900">Mediqo.</span>
+            </div>
+            <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">Sign In to Your Account</h2>
+            <p className="text-xs text-slate-500 font-normal">
+              Enter your credentials to access your personalized medical portal.
+            </p>
           </div>
-        </div>
 
-        {/* Form */}
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          <Input
-            label="Email Address"
-            type="email"
-            placeholder="e.g. user@mediqo.com"
-            icon={<Mail className="w-4 h-4" />}
-            error={errors.email?.message}
-            {...register('email')}
-          />
+          {/* Quick Demo Fill Box */}
+          <div className="bg-[#F0F3FF] p-3.5 rounded-[12px] border border-[#D6DDFF] space-y-2">
+            <p className="text-[10px] font-bold text-[#5F6FFF] uppercase tracking-wider">Quick Demo Auto-Fill:</p>
+            <div className="grid grid-cols-3 gap-1.5 text-[11px]">
+              <button
+                type="button"
+                onClick={() => handleDemoFill('dr.rajesh@mediqo.com')}
+                className="px-2 py-1.5 rounded-[8px] bg-white border border-[#D6DDFF] text-slate-800 font-semibold hover:bg-blue-50 text-left truncate transition-colors"
+                title="Dr. Rajesh Sharma (Doctor)"
+              >
+                👨‍⚕️ Doctor
+              </button>
+              <button
+                type="button"
+                onClick={() => handleDemoFill('receptionist@mediqo.com')}
+                className="px-2 py-1.5 rounded-[8px] bg-white border border-[#D6DDFF] text-slate-800 font-semibold hover:bg-purple-50 text-left truncate transition-colors"
+                title="Sunita Rao (Receptionist)"
+              >
+                👩‍💼 Receptionist
+              </button>
+              <button
+                type="button"
+                onClick={() => handleDemoFill('patient@mediqo.com')}
+                className="px-2 py-1.5 rounded-[8px] bg-white border border-[#D6DDFF] text-slate-800 font-semibold hover:bg-emerald-50 text-left truncate transition-colors"
+                title="Aarav Mehta (Patient)"
+              >
+                👤 Patient
+              </button>
+            </div>
+          </div>
 
-          <Input
-            label="Password"
-            type="password"
-            placeholder="••••••••"
-            icon={<Lock className="w-4 h-4" />}
-            error={errors.password?.message}
-            {...register('password')}
-          />
+          {/* Form */}
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            <Input
+              label="Email Address"
+              type="email"
+              placeholder="e.g. user@mediqo.com"
+              leftIcon={<Mail className="w-4 h-4 text-slate-400" />}
+              error={errors.email?.message}
+              {...register('email')}
+            />
 
-          <Button type="submit" isLoading={isSubmitting} className="w-full py-3">
-            Sign In <ArrowRight className="w-4 h-4 ml-2" />
-          </Button>
-        </form>
+            <Input
+              label="Password"
+              type="password"
+              placeholder="••••••••"
+              leftIcon={<Lock className="w-4 h-4 text-slate-400" />}
+              error={errors.password?.message}
+              {...register('password')}
+            />
 
-        {/* Register Redirect */}
-        <div className="text-center pt-2 text-xs text-gray-500">
-          Don't have a patient account?{' '}
-          <Link to="/register" className="font-bold text-blue-600 hover:underline">
-            Register as Patient
-          </Link>
+            <Button type="submit" isLoading={isSubmitting} variant="primary" className="w-full py-3 text-xs font-bold uppercase tracking-wider">
+              Sign In <ArrowRight className="w-4 h-4 ml-2" />
+            </Button>
+          </form>
+
+          {/* Register Redirect */}
+          <div className="text-center pt-2 text-xs text-slate-500 font-medium">
+            Don't have a patient account?{' '}
+            <Link to="/register" className="font-bold text-[#5F6FFF] hover:underline">
+              Create Patient Account
+            </Link>
+          </div>
+
         </div>
 
       </div>
     </div>
   );
 };
+
