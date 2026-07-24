@@ -8,6 +8,9 @@ import { CreateBillModal } from '../../components/receptionist/CreateBillModal';
 import { RescheduleModal } from '../../components/receptionist/RescheduleModal';
 import { BillInvoiceModal } from '../../components/receptionist/BillInvoiceModal';
 import { PatientDetailsModal } from '../../components/receptionist/PatientDetailsModal';
+import { Card, StatCard, SectionCard } from '../../components/ui/Card';
+import { EmptyState } from '../../components/ui/EmptyState';
+import { Button } from '../../components/ui/Button';
 
 import {
   Users,
@@ -25,6 +28,7 @@ import {
   Stethoscope,
   ChevronRight,
   TrendingUp,
+  Plus,
 } from 'lucide-react';
 
 export const ReceptionistDashboard: React.FC = () => {
@@ -97,47 +101,51 @@ export const ReceptionistDashboard: React.FC = () => {
   };
 
   return (
-    <div className="space-y-8 animate-in fade-in duration-300">
-      {/* Header Bar */}
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 border-b border-slate-200 pb-6">
-        <div>
-          <h1 className="text-2xl font-black tracking-tight text-slate-900">
-            Reception Desk Console
+    <div className="space-y-8 max-w-7xl mx-auto">
+      {/* Receptionist Banner Header */}
+      <div className="bg-[#5F6FFF] rounded-[16px] p-6 sm:p-8 text-white shadow-md shadow-[#5F6FFF]/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+        <div className="space-y-2 max-w-xl">
+          <div className="inline-flex items-center gap-1.5 bg-white/15 backdrop-blur-xs px-3 py-1 rounded-full text-[11px] font-semibold text-white border border-white/20">
+            <Users className="w-3.5 h-3.5" />
+            <span>Reception Desk Console</span>
+          </div>
+          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight leading-tight">
+            Front Desk Management
           </h1>
-          <p className="text-xs text-slate-500 mt-1 font-medium">
+          <p className="text-blue-100 text-xs sm:text-sm leading-relaxed">
             Manage patient registrations, appointment desk queues, doctor assignments, and billing invoices.
           </p>
         </div>
 
         {/* Quick Action Buttons */}
         <div className="flex flex-wrap items-center gap-2.5">
-          <button
+          <Button
+            variant="secondary"
             onClick={() => setPatientModalOpen(true)}
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-purple-700 hover:bg-purple-800 text-white text-xs font-bold transition-all shadow-md shadow-purple-500/20"
+            className="bg-white text-[#5F6FFF] hover:bg-blue-50 font-bold px-4 py-2 rounded-full text-xs uppercase tracking-wider shadow-sm"
           >
-            <UserPlus className="w-4 h-4" />
-            <span>Register Patient</span>
-          </button>
+            <UserPlus className="w-3.5 h-3.5 mr-1.5" /> Register Patient
+          </Button>
 
-          <button
+          <Button
+            variant="outline"
             onClick={() => setBookModalOpen(true)}
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold transition-all shadow-md shadow-indigo-500/20"
+            className="border-white/40 text-white hover:bg-white/10 font-bold px-4 py-2 rounded-full text-xs uppercase tracking-wider"
           >
-            <PlusCircle className="w-4 h-4" />
-            <span>Book Appointment</span>
-          </button>
+            <PlusCircle className="w-3.5 h-3.5 mr-1.5" /> Book Appointment
+          </Button>
 
-          <button
+          <Button
+            variant="outline"
             onClick={() => setBillModalOpen(true)}
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-md shadow-slate-900/10"
+            className="border-white/40 text-white hover:bg-white/10 font-bold px-4 py-2 rounded-full text-xs uppercase tracking-wider"
           >
-            <Receipt className="w-4 h-4" />
-            <span>Issue Invoice</span>
-          </button>
+            <Receipt className="w-3.5 h-3.5 mr-1.5" /> Issue Invoice
+          </Button>
 
           <button
             onClick={fetchDashboardData}
-            className="p-2.5 rounded-2xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 transition-colors"
+            className="p-2.5 rounded-full bg-white/15 border border-white/20 text-white hover:bg-white/25 transition-colors"
             title="Refresh Dashboard"
           >
             <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
@@ -146,165 +154,119 @@ export const ReceptionistDashboard: React.FC = () => {
       </div>
 
       {error && (
-        <div className="p-4 bg-rose-50 text-rose-700 border border-rose-200 rounded-2xl text-xs font-bold">
+        <div className="p-4 bg-rose-50 text-rose-700 border border-rose-200 rounded-[12px] text-xs font-bold">
           {error}
         </div>
       )}
 
       {/* Summary KPI Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-        {/* Total Patients */}
-        <div className="bg-white p-5 rounded-3xl border border-slate-200/80 shadow-2xs relative overflow-hidden group hover:border-purple-300 transition-all">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider">
-                Total Patients
-              </p>
-              <h3 className="text-2xl font-black text-slate-900 mt-1">
-                {stats.totalPatients}
-              </h3>
-            </div>
-            <div className="w-12 h-12 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center font-bold">
-              <Users className="w-6 h-6" />
-            </div>
-          </div>
-          <div className="mt-4 flex items-center text-[11px] text-purple-700 font-bold">
-            <TrendingUp className="w-3.5 h-3.5 mr-1" />
-            Registered Patients in Registry
-          </div>
-        </div>
+        <StatCard
+          title="Total Registered"
+          value={`${stats.totalPatients}`}
+          subtitle="Patients registered in system"
+          icon={<Users className="w-5 h-5 text-[#5F6FFF]" />}
+          badgeText="Registry"
+          badgeType="primary"
+        />
 
-        {/* Today's Appointments */}
-        <div className="bg-white p-5 rounded-3xl border border-slate-200/80 shadow-2xs relative overflow-hidden group hover:border-indigo-300 transition-all">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider">
-                Today's Appointments
-              </p>
-              <h3 className="text-2xl font-black text-slate-900 mt-1">
-                {stats.todayAppointments}
-              </h3>
-            </div>
-            <div className="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold">
-              <Calendar className="w-6 h-6" />
-            </div>
-          </div>
-          <div className="mt-4 text-[11px] text-indigo-700 font-bold flex items-center">
-            <Clock className="w-3.5 h-3.5 mr-1" />
-            Scheduled for Today's Queue
-          </div>
-        </div>
+        <StatCard
+          title="Today's Appointments"
+          value={`${stats.todayAppointments}`}
+          subtitle="Scheduled desk queue visits"
+          icon={<Calendar className="w-5 h-5 text-indigo-600" />}
+          badgeText="Desk Queue"
+          badgeType="primary"
+        />
 
-        {/* Pending Payments Total */}
-        <div className="bg-white p-5 rounded-3xl border border-slate-200/80 shadow-2xs relative overflow-hidden group hover:border-amber-300 transition-all">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider">
-                Pending Payment Due
-              </p>
-              <h3 className="text-2xl font-black text-slate-900 mt-1">
-                ${stats.pendingPaymentTotal}
-              </h3>
-            </div>
-            <div className="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center font-bold">
-              <CreditCard className="w-6 h-6" />
-            </div>
-          </div>
-          <div className="mt-4 text-[11px] text-amber-700 font-bold">
-            Unsettled patient invoices
-          </div>
-        </div>
+        <StatCard
+          title="Pending Payments"
+          value={`₹${stats.pendingPaymentTotal}`}
+          subtitle="Unsettled patient invoices"
+          icon={<CreditCard className="w-5 h-5 text-amber-600" />}
+          badgeText="Due"
+          badgeType="warning"
+        />
 
-        {/* Total Invoices Issued */}
-        <div className="bg-white p-5 rounded-3xl border border-slate-200/80 shadow-2xs relative overflow-hidden group hover:border-emerald-300 transition-all">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider">
-                Invoices Generated
-              </p>
-              <h3 className="text-2xl font-black text-slate-900 mt-1">
-                {stats.totalBillsCount}
-              </h3>
-            </div>
-            <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold">
-              <Receipt className="w-6 h-6" />
-            </div>
-          </div>
-          <div className="mt-4 text-[11px] text-emerald-700 font-bold">
-            All billing history records
-          </div>
-        </div>
+        <StatCard
+          title="Invoices Generated"
+          value={`${stats.totalBillsCount}`}
+          subtitle="Total billing records issued"
+          icon={<Receipt className="w-5 h-5 text-emerald-600" />}
+          badgeText="Invoices"
+          badgeType="success"
+        />
       </div>
 
       {/* Main Content Grid: Appointments Desk Queue & Billing Overview */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Column 1 & 2: Recent Appointments Queue */}
         <div className="lg:col-span-2 space-y-4">
-          <div className="bg-white rounded-3xl border border-slate-200/80 p-6 shadow-2xs">
-            <div className="flex items-center justify-between mb-4">
-              <div>
-                <h2 className="text-base font-extrabold text-slate-900">
-                  Active Consultation Queue
-                </h2>
-                <p className="text-xs text-slate-500">Recent appointments scheduled at the desk</p>
-              </div>
+          <SectionCard
+            title="Active Consultation Queue"
+            subtitle="Recent appointments scheduled at the front desk"
+            action={
               <a
                 href="/receptionist/appointments"
-                className="text-xs font-bold text-purple-700 hover:text-purple-800 flex items-center gap-1"
+                className="text-xs font-bold text-[#5F6FFF] hover:underline flex items-center gap-1"
               >
-                <span>View Full Desk</span>
-                <ChevronRight className="w-4 h-4" />
+                Full Desk <ChevronRight className="w-3.5 h-3.5" />
               </a>
-            </div>
-
+            }
+          >
             {loading ? (
               <div className="py-12 text-center text-xs text-slate-400">Loading appointments desk...</div>
             ) : recentAppointments.length === 0 ? (
-              <div className="py-12 text-center text-xs text-slate-400">
-                No active appointments recorded today.
-              </div>
+              <EmptyState
+                title="No Active Appointments"
+                description="No active appointments recorded in today's desk queue."
+                icon={<Calendar className="w-8 h-8 text-[#5F6FFF]" />}
+              />
             ) : (
               <div className="space-y-3">
                 {recentAppointments.map((apt) => (
                   <div
                     key={apt._id}
-                    className="p-4 bg-slate-50 rounded-2xl border border-slate-200/80 hover:border-purple-200 transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+                    className="p-4 bg-white rounded-[12px] border border-slate-200/80 hover:border-[#5F6FFF]/40 transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-3"
                   >
-                    <div>
+                    <div className="space-y-1">
                       <div className="flex items-center gap-2">
-                        <span className="text-xs font-black text-slate-900">{apt.patientName || 'Patient'}</span>
+                        <span className="text-sm font-bold text-slate-900">{apt.patientName || 'Patient'}</span>
                         <StatusBadge status={apt.status} />
                       </div>
-                      <p className="text-xs text-slate-600 mt-1 flex items-center gap-3">
-                        <span className="flex items-center gap-1">
-                          <Stethoscope className="w-3.5 h-3.5 text-purple-600" />
+                      <p className="text-xs text-slate-500 flex items-center gap-3">
+                        <span className="flex items-center gap-1 font-semibold text-slate-700">
+                          <Stethoscope className="w-3.5 h-3.5 text-[#5F6FFF]" />
                           Dr. {apt.doctorName} ({apt.doctorSpeciality})
                         </span>
                         <span>📅 {apt.appointmentDate} • {apt.timeSlot}</span>
                       </p>
                     </div>
 
-                    <div className="flex items-center gap-2 shrink-0">
-                      <button
+                    <div className="flex items-center gap-2 shrink-0 self-end sm:self-center">
+                      <Button
+                        size="sm"
+                        variant="outline"
                         onClick={() => setSelectedPatientIdForDetails(apt.patientId)}
-                        className="px-2.5 py-1.5 rounded-xl bg-white border border-slate-200 text-xs font-bold text-slate-700 hover:bg-slate-100 transition-colors inline-flex items-center gap-1"
-                        title="View Patient Details"
+                        className="text-xs"
                       >
-                        <Eye className="w-3.5 h-3.5 text-slate-500" />
-                        Patient
-                      </button>
+                        <Eye className="w-3.5 h-3.5 mr-1 text-slate-400" /> Patient
+                      </Button>
 
                       {apt.status === 'scheduled' && (
                         <>
-                          <button
+                          <Button
+                            size="sm"
+                            variant="secondary"
                             onClick={() => setSelectedAppointmentForReschedule(apt)}
-                            className="px-2.5 py-1.5 rounded-xl bg-purple-50 border border-purple-200 text-xs font-bold text-purple-700 hover:bg-purple-100 transition-colors"
+                            className="text-xs bg-indigo-50 text-[#5F6FFF] hover:bg-indigo-100 border-none"
                           >
                             Reschedule
-                          </button>
+                          </Button>
+
                           <button
                             onClick={() => handleCancelAppointment(apt._id)}
-                            className="p-1.5 rounded-xl bg-rose-50 text-rose-600 hover:bg-rose-100 transition-colors"
+                            className="p-2 rounded-[8px] text-rose-600 hover:bg-rose-50 border border-rose-200 transition-colors"
                             title="Cancel Appointment"
                           >
                             <XCircle className="w-4 h-4" />
@@ -316,52 +278,51 @@ export const ReceptionistDashboard: React.FC = () => {
                 ))}
               </div>
             )}
-          </div>
+          </SectionCard>
         </div>
 
         {/* Column 3: Recent Billing & Quick Tools */}
         <div className="space-y-6">
-          <div className="bg-white rounded-3xl border border-slate-200/80 p-6 shadow-2xs">
-            <div className="flex items-center justify-between mb-4">
-              <div>
-                <h2 className="text-base font-extrabold text-slate-900">
-                  Invoicing Activity
-                </h2>
-                <p className="text-xs text-slate-500">Recent patient bills generated</p>
-              </div>
+          <SectionCard
+            title="Invoicing Activity"
+            subtitle="Recent patient bills generated"
+            action={
               <a
                 href="/receptionist/billing"
-                className="text-xs font-bold text-purple-700 hover:text-purple-800 flex items-center gap-1"
+                className="text-xs font-bold text-[#5F6FFF] hover:underline flex items-center gap-1"
               >
-                <span>Billing Desk</span>
-                <ChevronRight className="w-4 h-4" />
+                Billing Desk <ChevronRight className="w-3.5 h-3.5" />
               </a>
-            </div>
-
+            }
+          >
             {loading ? (
               <div className="py-12 text-center text-xs text-slate-400">Loading recent invoices...</div>
             ) : recentBills.length === 0 ? (
-              <div className="py-12 text-center text-xs text-slate-400">No recent bills found.</div>
+              <EmptyState
+                title="No Invoices Found"
+                description="No recent billing records available."
+                icon={<Receipt className="w-7 h-7 text-[#5F6FFF]" />}
+              />
             ) : (
               <div className="space-y-3">
                 {recentBills.map((bill) => (
                   <div
                     key={bill._id}
                     onClick={() => setSelectedBillForInvoice(bill)}
-                    className="p-3.5 bg-slate-50 rounded-2xl border border-slate-200/80 hover:bg-purple-50/50 hover:border-purple-200 cursor-pointer transition-all flex items-center justify-between"
+                    className="p-3.5 bg-slate-50 rounded-[12px] border border-slate-200/80 hover:bg-white hover:border-[#5F6FFF]/40 cursor-pointer transition-all flex items-center justify-between"
                   >
-                    <div>
-                      <span className="text-[10px] font-black text-purple-700 bg-purple-50 px-2 py-0.5 rounded-md border border-purple-100">
+                    <div className="space-y-1">
+                      <span className="text-[10px] font-extrabold text-[#5F6FFF] bg-[#F0F3FF] px-2 py-0.5 rounded-[4px] border border-[#D6DDFF]">
                         #{bill.billNumber}
                       </span>
-                      <p className="text-xs font-bold text-slate-900 mt-1">{bill.patientName || 'Patient'}</p>
-                      <p className="text-[11px] text-slate-500">Doctor: {bill.doctorName}</p>
+                      <p className="text-xs font-bold text-slate-900">{bill.patientName || 'Patient'}</p>
+                      <p className="text-[11px] text-slate-500">Dr. {bill.doctorName}</p>
                     </div>
 
-                    <div className="text-right">
-                      <p className="text-sm font-black text-slate-900">${bill.total}</p>
+                    <div className="text-right space-y-1">
+                      <p className="text-sm font-extrabold text-slate-900">₹{bill.total}</p>
                       <span
-                        className={`text-[10px] font-bold px-2 py-0.5 rounded-full inline-block mt-0.5 ${
+                        className={`text-[10px] font-bold px-2 py-0.5 rounded-full inline-block ${
                           bill.status === 'Paid'
                             ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
                             : 'bg-amber-50 text-amber-700 border border-amber-200'
@@ -374,7 +335,7 @@ export const ReceptionistDashboard: React.FC = () => {
                 ))}
               </div>
             )}
-          </div>
+          </SectionCard>
         </div>
       </div>
 
@@ -428,3 +389,4 @@ export const ReceptionistDashboard: React.FC = () => {
     </div>
   );
 };
+
