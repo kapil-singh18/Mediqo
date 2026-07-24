@@ -9,6 +9,9 @@ import { createServer as createViteServer } from 'vite';
 import { connectDB } from './server/config/db.js';
 import { AuthService } from './server/services/authService.js';
 import authRoutes from './server/routes/authRoutes.js';
+import appointmentRoutes from './server/routes/appointmentRoutes.js';
+import prescriptionRoutes from './server/routes/prescriptionRoutes.js';
+import billRoutes from './server/routes/billRoutes.js';
 import { errorHandler } from './server/middleware/errorHandler.js';
 
 const PORT = Number(process.env.PORT) || 3000;
@@ -33,6 +36,9 @@ async function startServer() {
 
   // API Routes
   app.use('/api/auth', authRoutes);
+  app.use('/api/appointments', appointmentRoutes);
+  app.use('/api/prescriptions', prescriptionRoutes);
+  app.use('/api/bills', billRoutes);
 
   // Global Error Handler for API
   app.use(errorHandler);

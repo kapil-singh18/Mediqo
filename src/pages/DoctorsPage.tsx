@@ -130,7 +130,7 @@ export const DoctorsPage: React.FC = () => {
                       <span className="text-[10px] text-gray-400 font-bold uppercase">Consultation Fee</span>
                       <p className="text-base font-extrabold text-gray-900">${doc.fees}</p>
                     </div>
-                    <Link to={user ? '/patient' : '/login'}>
+                    <Link to={user ? `/patient/book?doctorId=${doc._id}` : '/login'}>
                       <Button size="sm">Book Visit</Button>
                     </Link>
                   </div>

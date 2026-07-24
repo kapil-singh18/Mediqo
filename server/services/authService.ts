@@ -20,6 +20,10 @@ export const sanitizeUser = (user: any) => {
     phone: obj.phone,
     speciality: obj.speciality || '',
     experience: obj.experience || '',
+    address: obj.address || '',
+    age: obj.age || 0,
+    gender: obj.gender || 'Not specified',
+    profileImage: obj.profileImage || '',
     createdAt: obj.createdAt,
     updatedAt: obj.updatedAt,
   };
@@ -157,6 +161,54 @@ export class AuthService {
         }
       }
       throw new Error('User not found');
+    }
+  }
+
+  /**
+   * Update patient profile
+   */
+  static async updateProfile(userId: string, data: { name?: string; phone?: string; address?: string; age?: number; gender?: string; profileImage?: string }) {
+    if (getIsDbConnected()) {
+      const user = await (User as any).findById(userId);
+      if (!user) {
+        throw new Error('User not found');
+      }
+
+      if (data.name !== undefined) user.name = data.name;
+      if (data.phone !== undefined) user.phone = data.phone;
+      if (data.address !== undefined) user.address = data.address;
+      if (data.age !== undefined) user.age = Number(data.age);
+      if (data.gender !== undefined) user.gender = data.gender;
+      if (data.profileImage !== undefined) user.profileImage = data.profileImage;
+
+      await user.save();
+      return sanitizeUser(user);
+    } else {
+      let foundUserKey: string | null = null;
+      let foundUserObj: any = null;
+
+      for (const [key, user] of memoryUserStore.entries()) {
+        if (user._id === userId || user.id === userId) {
+          foundUserKey = key;
+          foundUserObj = user;
+          break;
+        }
+      }
+
+      if (!foundUserObj || !foundUserKey) {
+        throw new Error('User not found');
+      }
+
+      if (data.name !== undefined) foundUserObj.name = data.name;
+      if (data.phone !== undefined) foundUserObj.phone = data.phone;
+      if (data.address !== undefined) foundUserObj.address = data.address;
+      if (data.age !== undefined) foundUserObj.age = Number(data.age);
+      if (data.gender !== undefined) foundUserObj.gender = data.gender;
+      if (data.profileImage !== undefined) foundUserObj.profileImage = data.profileImage;
+      foundUserObj.updatedAt = new Date();
+
+      memoryUserStore.set(foundUserKey, foundUserObj);
+      return sanitizeUser(foundUserObj);
     }
   }
 

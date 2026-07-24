@@ -10,6 +10,10 @@ export interface IUser {
   phone: string;
   speciality?: string;
   experience?: string;
+  address?: string;
+  age?: number;
+  gender?: string;
+  profileImage?: string;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -50,6 +54,22 @@ const userSchema = new Schema<IUser>(
       default: '',
     },
     experience: {
+      type: String,
+      default: '',
+    },
+    address: {
+      type: String,
+      default: '',
+    },
+    age: {
+      type: Number,
+      default: 0,
+    },
+    gender: {
+      type: String,
+      default: 'Not specified',
+    },
+    profileImage: {
       type: String,
       default: '',
     },

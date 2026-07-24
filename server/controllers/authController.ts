@@ -56,4 +56,20 @@ export class AuthController {
       return sendError(res, error.message || 'Failed to fetch profile', 400);
     }
   }
+
+  /**
+   * PUT /api/auth/profile
+   */
+  static async updateProfile(req: AuthenticatedRequest, res: Response) {
+    try {
+      if (!req.user?.userId) {
+        return sendError(res, 'User identity missing', 401);
+      }
+
+      const updatedUser = await AuthService.updateProfile(req.user.userId, req.body);
+      return sendSuccess(res, { user: updatedUser }, 'Profile updated successfully', 200);
+    } catch (error: any) {
+      return sendError(res, error.message || 'Failed to update profile', 400);
+    }
+  }
 }

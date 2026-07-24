@@ -1,82 +1,241 @@
-import React from 'react';
-import { useAuth } from '../../hooks/useAuth';
-import { Calendar, Clock, UserCheck, Heart, ShieldCheck, FileText } from 'lucide-react';
-import { Button } from '../../components/Button';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../../hooks/useAuth';
+import {
+  Calendar,
+  CheckCircle2,
+  Clock,
+  CreditCard,
+  FileText,
+  User,
+  Plus,
+  ArrowRight,
+  Stethoscope,
+  ChevronRight,
+  ShieldCheck,
+  AlertCircle,
+} from 'lucide-react';
+import { Appointment, Prescription, Bill } from '../../types';
+import { patientApi } from '../../services/patientApi';
+import { StatusBadge } from '../../components/patient/StatusBadge';
+import { LoadingSpinner } from '../../components/patient/LoadingSpinner';
+import { Button } from '../../components/Button';
 
 export const PatientDashboard: React.FC = () => {
   const { user } = useAuth();
+  const [appointments, setAppointments] = useState<Appointment[]>([]);
+  const [prescriptions, setPrescriptions] = useState<Prescription[]>([]);
+  const [bills, setBills] = useState<Bill[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchDashboardData = async () => {
+      setLoading(true);
+      try {
+        const [apts, rxs, bls] = await Promise.all([
+          patientApi.getMyAppointments(),
+          patientApi.getMyPrescriptions(),
+          patientApi.getMyBills(),
+        ]);
+        setAppointments(apts);
+        setPrescriptions(rxs);
+        setBills(bls);
+      } catch (err) {
+        console.error('Failed to load patient dashboard:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDashboardData();
+  }, []);
+
+  const upcomingAppointment = appointments.find((a) => a.status === 'scheduled');
+  const completedCount = appointments.filter((a) => a.status === 'completed').length;
+  const pendingBills = bills.filter((b) => b.status === 'Pending');
+  const pendingTotal = pendingBills.reduce((acc, b) => acc + b.total, 0);
+  const latestPrescription = prescriptions[0];
+
+  if (loading) {
+    return <LoadingSpinner label="Preparing your medical dashboard..." />;
+  }
 
   return (
     <div className="space-y-8">
-      {/* Welcome Hero Banner */}
-      <div className="bg-gradient-to-r from-blue-600 to-indigo-700 rounded-3xl p-8 text-white shadow-lg relative overflow-hidden">
-        <div className="relative z-10 max-w-2xl space-y-3">
-          <div className="inline-flex items-center space-x-2 bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-xs font-semibold">
-            <UserCheck className="w-4 h-4" />
+      {/* Welcome Banner */}
+      <div className="bg-[#5F6FFF] rounded-3xl p-8 text-white shadow-xl shadow-indigo-200/50 relative overflow-hidden flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+        <div className="relative z-10 space-y-2 max-w-xl">
+          <div className="inline-flex items-center space-x-2 bg-white/20 backdrop-blur-md px-3.5 py-1 rounded-full text-xs font-semibold">
+            <ShieldCheck className="w-4 h-4" />
             <span>Verified Patient Account</span>
           </div>
-          <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight">
-            Welcome, {user?.name || 'Patient'}!
+          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
+            Welcome back, {user?.name || 'Patient'}!
           </h1>
-          <p className="text-blue-100 text-sm sm:text-base leading-relaxed">
-            Manage your clinic consultations, book specialist appointments, and track your healthcare history seamlessly with Mediqo.
+          <p className="text-indigo-100 text-sm leading-relaxed">
+            Your healthcare portal is up to date. Schedule consultations, review past prescriptions, and track active appointments.
           </p>
-          <div className="pt-2 flex flex-wrap gap-3">
-            <Link to="/doctors">
-              <Button className="bg-white text-blue-700 hover:bg-blue-50 border-none font-semibold shadow-md">
-                Book New Appointment
-              </Button>
-            </Link>
-          </div>
         </div>
-        <div className="absolute -right-8 -bottom-8 opacity-10 pointer-events-none">
-          <Heart className="w-80 h-80 text-white" />
+
+        <div className="relative z-10 flex flex-wrap gap-3">
+          <Link to="/patient/book">
+            <Button className="bg-white text-[#5F6FFF] hover:bg-indigo-50 font-bold rounded-full px-6 py-3 shadow-md border-none text-sm">
+              <Plus className="w-4 h-4 mr-1.5" /> Book Appointment
+            </Button>
+          </Link>
         </div>
       </div>
 
-      {/* Quick Summary Cards Placeholder Layout */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-        <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm flex items-center space-x-4">
-          <div className="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold">
-            <Calendar className="w-6 h-6" />
+      {/* Main Metric & Summary Cards Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* Card 1: Upcoming Appointment Summary */}
+        <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-xs flex flex-col justify-between space-y-4">
+          <div className="flex items-center justify-between">
+            <div className="w-12 h-12 rounded-2xl bg-indigo-50 text-[#5F6FFF] flex items-center justify-center font-bold">
+              <Calendar className="w-6 h-6" />
+            </div>
+            <span className="text-[10px] uppercase font-bold text-slate-400">Scheduled Visit</span>
           </div>
           <div>
-            <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">Upcoming Visits</p>
-            <p className="text-xl font-bold text-gray-900 mt-0.5">0 Active</p>
+            <p className="text-xs font-bold text-slate-400 uppercase tracking-wider">Upcoming Visit</p>
+            {upcomingAppointment ? (
+              <div className="mt-1 space-y-0.5">
+                <p className="text-sm font-extrabold text-slate-900 truncate">{upcomingAppointment.doctorName}</p>
+                <p className="text-xs text-[#5F6FFF] font-semibold">{upcomingAppointment.appointmentDate} at {upcomingAppointment.timeSlot}</p>
+              </div>
+            ) : (
+              <p className="text-sm font-extrabold text-slate-400 mt-1">No Active Appointment</p>
+            )}
           </div>
+          <Link
+            to="/patient/appointments"
+            className="text-xs font-bold text-[#5F6FFF] hover:underline flex items-center pt-2 border-t border-slate-100"
+          >
+            View All Visits <ChevronRight className="w-3.5 h-3.5 ml-1" />
+          </Link>
         </div>
 
-        <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm flex items-center space-x-4">
-          <div className="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold">
-            <Clock className="w-6 h-6" />
+        {/* Card 2: Completed Appointments */}
+        <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-xs flex flex-col justify-between space-y-4">
+          <div className="flex items-center justify-between">
+            <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold">
+              <CheckCircle2 className="w-6 h-6" />
+            </div>
+            <span className="text-[10px] uppercase font-bold text-slate-400">History</span>
           </div>
           <div>
-            <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">Past Appointments</p>
-            <p className="text-xl font-bold text-gray-900 mt-0.5">0 Completed</p>
+            <p className="text-xs font-bold text-slate-400 uppercase tracking-wider">Completed Visits</p>
+            <p className="text-2xl font-extrabold text-slate-900 mt-1">{completedCount} Consultations</p>
           </div>
+          <Link
+            to="/patient/appointments"
+            className="text-xs font-bold text-[#5F6FFF] hover:underline flex items-center pt-2 border-t border-slate-100"
+          >
+            View History <ChevronRight className="w-3.5 h-3.5 ml-1" />
+          </Link>
         </div>
 
-        <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm flex items-center space-x-4">
-          <div className="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center font-bold">
-            <ShieldCheck className="w-6 h-6" />
+        {/* Card 3: Pending Bills */}
+        <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-xs flex flex-col justify-between space-y-4">
+          <div className="flex items-center justify-between">
+            <div className="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center font-bold">
+              <CreditCard className="w-6 h-6" />
+            </div>
+            <span className="text-[10px] uppercase font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full">
+              {pendingBills.length} Pending
+            </span>
           </div>
           <div>
-            <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">Account Status</p>
-            <p className="text-sm font-bold text-emerald-600 mt-0.5">Active & Ready</p>
+            <p className="text-xs font-bold text-slate-400 uppercase tracking-wider">Pending Bills</p>
+            <p className="text-2xl font-extrabold text-slate-900 mt-1">${pendingTotal} Total</p>
           </div>
+          <Link
+            to="/patient/bills"
+            className="text-xs font-bold text-[#5F6FFF] hover:underline flex items-center pt-2 border-t border-slate-100"
+          >
+            View Bills <ChevronRight className="w-3.5 h-3.5 ml-1" />
+          </Link>
+        </div>
+
+        {/* Card 4: Latest Prescription */}
+        <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-xs flex flex-col justify-between space-y-4">
+          <div className="flex items-center justify-between">
+            <div className="w-12 h-12 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center font-bold">
+              <FileText className="w-6 h-6" />
+            </div>
+            <span className="text-[10px] uppercase font-bold text-slate-400">Rx Digital</span>
+          </div>
+          <div>
+            <p className="text-xs font-bold text-slate-400 uppercase tracking-wider">Latest Prescription</p>
+            {latestPrescription ? (
+              <p className="text-xs font-bold text-slate-900 mt-1 line-clamp-2">
+                {latestPrescription.diagnosis}
+              </p>
+            ) : (
+              <p className="text-sm font-extrabold text-slate-400 mt-1">No Prescriptions</p>
+            )}
+          </div>
+          <Link
+            to="/patient/prescriptions"
+            className="text-xs font-bold text-[#5F6FFF] hover:underline flex items-center pt-2 border-t border-slate-100"
+          >
+            View Prescriptions <ChevronRight className="w-3.5 h-3.5 ml-1" />
+          </Link>
         </div>
       </div>
 
-      {/* Placeholder Workspace Notice */}
-      <div className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm space-y-4">
-        <div className="flex items-center space-x-3 text-blue-600">
-          <FileText className="w-5 h-5" />
-          <h3 className="text-lg font-bold text-gray-900">Patient Dashboard Workspace</h3>
+      {/* Quick Actions Bar */}
+      <div className="bg-white rounded-3xl p-8 border border-slate-100 shadow-xs space-y-4">
+        <h3 className="text-base font-bold text-slate-900">Quick Portal Actions</h3>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <Link
+            to="/patient/book"
+            className="p-5 rounded-2xl bg-slate-50 border border-slate-100 hover:border-[#5F6FFF] hover:bg-indigo-50/50 transition-all text-center flex flex-col items-center space-y-2.5 group"
+          >
+            <div className="w-10 h-10 rounded-xl bg-indigo-100/70 text-[#5F6FFF] flex items-center justify-center group-hover:bg-[#5F6FFF] group-hover:text-white transition-colors">
+              <Plus className="w-5 h-5" />
+            </div>
+            <span className="text-xs font-bold text-slate-900 group-hover:text-[#5F6FFF] transition-colors">
+              Book Appointment
+            </span>
+          </Link>
+
+          <Link
+            to="/patient/appointments"
+            className="p-5 rounded-2xl bg-slate-50 border border-slate-100 hover:border-[#5F6FFF] hover:bg-indigo-50/50 transition-all text-center flex flex-col items-center space-y-2.5 group"
+          >
+            <div className="w-10 h-10 rounded-xl bg-indigo-100/70 text-[#5F6FFF] flex items-center justify-center group-hover:bg-[#5F6FFF] group-hover:text-white transition-colors">
+              <Calendar className="w-5 h-5" />
+            </div>
+            <span className="text-xs font-bold text-slate-900 group-hover:text-[#5F6FFF] transition-colors">
+              View Appointments
+            </span>
+          </Link>
+
+          <Link
+            to="/patient/bills"
+            className="p-5 rounded-2xl bg-slate-50 border border-slate-100 hover:border-[#5F6FFF] hover:bg-indigo-50/50 transition-all text-center flex flex-col items-center space-y-2.5 group"
+          >
+            <div className="w-10 h-10 rounded-xl bg-indigo-100/70 text-[#5F6FFF] flex items-center justify-center group-hover:bg-[#5F6FFF] group-hover:text-white transition-colors">
+              <CreditCard className="w-5 h-5" />
+            </div>
+            <span className="text-xs font-bold text-slate-900 group-hover:text-[#5F6FFF] transition-colors">
+              View Invoices & Bills
+            </span>
+          </Link>
+
+          <Link
+            to="/patient/profile"
+            className="p-5 rounded-2xl bg-slate-50 border border-slate-100 hover:border-[#5F6FFF] hover:bg-indigo-50/50 transition-all text-center flex flex-col items-center space-y-2.5 group"
+          >
+            <div className="w-10 h-10 rounded-xl bg-indigo-100/70 text-[#5F6FFF] flex items-center justify-center group-hover:bg-[#5F6FFF] group-hover:text-white transition-colors">
+              <User className="w-5 h-5" />
+            </div>
+            <span className="text-xs font-bold text-slate-900 group-hover:text-[#5F6FFF] transition-colors">
+              Edit My Profile
+            </span>
+          </Link>
         </div>
-        <p className="text-sm text-gray-600 leading-relaxed">
-          Your patient dashboard foundation is initialized. Appointments booking, token queue tracking, and digital prescription history modules will populate in upcoming phases.
-        </p>
       </div>
     </div>
   );

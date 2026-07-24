@@ -13,6 +13,12 @@ import { LoginPage } from '../pages/LoginPage';
 import { RegisterPage } from '../pages/RegisterPage';
 
 import { PatientDashboard } from '../pages/patient/PatientDashboard';
+import { BookAppointmentPage } from '../pages/patient/BookAppointmentPage';
+import { MyAppointmentsPage } from '../pages/patient/MyAppointmentsPage';
+import { PrescriptionsPage } from '../pages/patient/PrescriptionsPage';
+import { BillsPage } from '../pages/patient/BillsPage';
+import { ProfilePage } from '../pages/patient/ProfilePage';
+
 import { DoctorDashboard } from '../pages/doctor/DoctorDashboard';
 import { ReceptionistDashboard } from '../pages/receptionist/ReceptionistDashboard';
 
@@ -42,6 +48,11 @@ export const AppRoutes: React.FC = () => {
         }
       >
         <Route index element={<PatientDashboard />} />
+        <Route path="book" element={<BookAppointmentPage />} />
+        <Route path="appointments" element={<MyAppointmentsPage />} />
+        <Route path="prescriptions" element={<PrescriptionsPage />} />
+        <Route path="bills" element={<BillsPage />} />
+        <Route path="profile" element={<ProfilePage />} />
       </Route>
 
       {/* Protected Doctor Routes */}
