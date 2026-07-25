@@ -25,6 +25,7 @@ import { LoadingSpinner } from '../../components/patient/LoadingSpinner';
 import { Button } from '../../components/ui/Button';
 import { Card, StatCard, SectionCard } from '../../components/ui/Card';
 import { EmptyState } from '../../components/ui/EmptyState';
+import { DoctorAvatar } from '../../components/ui/DoctorAvatar';
 import { doctorsData } from '../../assets/assets';
 
 export const PatientDashboard: React.FC = () => {
@@ -243,24 +244,19 @@ export const PatientDashboard: React.FC = () => {
         ) : (
           <div className="space-y-3">
             {appointments.slice(0, 3).map((apt) => {
-              const docImg = getDoctorImage(apt.doctorName);
+              const docImg = getDoctorImage(apt.doctorName) || 'https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=500&auto=format&fit=crop&q=80';
               return (
                 <div
                   key={apt._id}
                   className="p-4 rounded-[12px] bg-white border border-slate-200/80 hover:border-[#5F6FFF]/40 hover:shadow-sm transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4"
                 >
                   <div className="flex items-start gap-3.5">
-                    {docImg ? (
-                      <img
-                        src={docImg}
-                        alt={apt.doctorName}
-                        className="w-11 h-11 rounded-full object-cover border border-slate-200 shrink-0"
-                      />
-                    ) : (
-                      <div className="w-11 h-11 rounded-full bg-[#F0F3FF] text-[#5F6FFF] flex items-center justify-center font-bold text-sm shrink-0 border border-[#D6DDFF]">
-                        <Stethoscope className="w-5 h-5" />
-                      </div>
-                    )}
+                    <DoctorAvatar
+                      src={apt.doctorImage || docImg}
+                      name={apt.doctorName}
+                      speciality={apt.doctorSpeciality}
+                      className="w-11 h-11 rounded-full shrink-0"
+                    />
                     <div className="space-y-1">
                       <div className="flex items-center gap-2">
                         <h4 className="text-sm font-bold text-slate-900">{apt.doctorName}</h4>
@@ -369,7 +365,7 @@ export const PatientDashboard: React.FC = () => {
                       <StatusBadge status={bill.status} />
                     </div>
                     <p className="text-xs text-slate-500">
-                      Dr. {bill.doctorName} • {bill.date || bill.appointmentDate}
+                      Dr. {bill.doctorName} • {bill.billDate}
                     </p>
                   </div>
 

@@ -95,8 +95,8 @@ export const StatCard: React.FC<StatCardProps> = ({
 export interface SectionCardProps {
   title?: string;
   subtitle?: string;
-  icon?: React.ReactNode;
   action?: React.ReactNode;
+  icon?: React.ReactNode;
   children: React.ReactNode;
   padding?: 'none' | 'sm' | 'md' | 'lg';
   className?: string;
@@ -105,8 +105,8 @@ export interface SectionCardProps {
 export const SectionCard: React.FC<SectionCardProps> = ({
   title,
   subtitle,
-  icon,
   action,
+  icon,
   children,
   padding = 'md',
   className = '',
@@ -116,7 +116,7 @@ export const SectionCard: React.FC<SectionCardProps> = ({
       {(title || subtitle || action || icon) && (
         <div className="px-5 py-4 sm:px-6 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div className="flex items-center gap-2.5">
-            {icon && <div className="text-[#5F6FFF] shrink-0">{icon}</div>}
+            {icon && <div className="p-1.5 bg-slate-50 rounded-lg">{icon}</div>}
             <div>
               {title && <h3 className="text-base font-bold text-slate-900">{title}</h3>}
               {subtitle && <p className="text-xs text-slate-500 mt-0.5">{subtitle}</p>}

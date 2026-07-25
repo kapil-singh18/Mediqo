@@ -58,7 +58,7 @@ export const PrescriptionsPage: React.FC = () => {
         <LoadingSpinner label="Loading digital prescriptions..." />
       ) : prescriptions.length === 0 ? (
         <EmptyState
-          icon={<Pill className="w-8 h-8" />}
+          icon={Pill}
           title="No Prescriptions Issued"
           description="You currently have no medical prescriptions recorded. Doctor prescriptions will automatically appear here following your completed appointments."
         />

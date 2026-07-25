@@ -127,8 +127,8 @@ export const PatientsPage: React.FC = () => {
         <div className="w-full md:w-96">
           <SearchInput
             value={search}
-            onChange={(e) => {
-              setSearch(e.target.value);
+            onChange={(val) => {
+              setSearch(val);
               setPage(1);
             }}
             onClear={() => {

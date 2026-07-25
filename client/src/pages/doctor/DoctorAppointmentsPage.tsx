@@ -94,7 +94,7 @@ export const DoctorAppointmentsPage: React.FC = () => {
           <div className="flex-1">
             <SearchInput
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={setSearchTerm}
               onClear={() => {
                 setSearchTerm('');
                 fetchAppointments();

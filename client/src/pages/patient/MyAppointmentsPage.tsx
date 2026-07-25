@@ -10,7 +10,9 @@ import { StatusBadge } from '../../components/patient/StatusBadge';
 import { Button } from '../../components/ui/Button';
 import { PageHeader } from '../../components/ui/LayoutPrimitives';
 import { Modal } from '../../components/ui/Modal';
+import { DoctorAvatar } from '../../components/ui/DoctorAvatar';
 import toast from 'react-hot-toast';
+
 
 export const MyAppointmentsPage: React.FC = () => {
   const [appointments, setAppointments] = useState<Appointment[]>([]);
@@ -69,7 +71,7 @@ export const MyAppointmentsPage: React.FC = () => {
         <LoadingSpinner label="Retrieving your appointment records..." />
       ) : appointments.length === 0 ? (
         <EmptyState
-          icon={<CalendarX className="w-8 h-8" />}
+          icon={CalendarX}
           title="No Appointments Found"
           description="You haven't scheduled any medical consultations yet. Browse our certified specialists and book your first appointment."
           actionText="Book Doctor Appointment"
@@ -93,11 +95,13 @@ export const MyAppointmentsPage: React.FC = () => {
         >
           <div className="space-y-6">
             <div className="flex items-center space-x-4 p-4 rounded-[12px] bg-[#F0F3FF] border border-[#5F6FFF]/20">
-              <img
-                src={selectedAppointment.doctorImage || 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400'}
-                alt={selectedAppointment.doctorName}
-                className="w-16 h-16 rounded-full object-cover border border-[#5F6FFF]/30 shrink-0"
+              <DoctorAvatar
+                src={selectedAppointment.doctorImage}
+                name={selectedAppointment.doctorName}
+                speciality={selectedAppointment.doctorSpeciality}
+                className="w-16 h-16 rounded-full shrink-0"
               />
+
               <div>
                 <h4 className="text-base font-bold text-slate-900">{selectedAppointment.doctorName}</h4>
                 <p className="text-xs font-bold text-[#5F6FFF]">{selectedAppointment.doctorSpeciality}</p>

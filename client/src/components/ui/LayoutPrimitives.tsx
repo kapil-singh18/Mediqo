@@ -1,5 +1,4 @@
 import React from 'react';
-import { Badge } from './Badge';
 
 // Page Container
 export const PageContainer: React.FC<{ children: React.ReactNode; className?: string }> = ({
@@ -39,8 +38,7 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
         {breadcrumbs && <div className="text-xs text-slate-500">{breadcrumbs}</div>}
         <div className="flex items-center gap-3">
           <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">{title}</h1>
-          {badge}
-          {badgeText && <Badge variant="primary">{badgeText}</Badge>}
+          {badge || (badgeText && <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800">{badgeText}</span>)}
         </div>
         {subtitle && <p className="text-xs sm:text-sm text-slate-500 font-medium">{subtitle}</p>}
       </div>

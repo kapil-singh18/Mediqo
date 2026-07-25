@@ -116,6 +116,7 @@ export interface Bill {
   paymentMethod?: string;
   status: 'Paid' | 'Pending' | 'Partial' | 'Overdue';
   date: string;
+  billDate?: string;
   dueDate?: string;
   total: number;
   notes?: string;

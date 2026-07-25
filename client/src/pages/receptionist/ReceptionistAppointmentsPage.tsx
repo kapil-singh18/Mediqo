@@ -122,7 +122,7 @@ export const ReceptionistAppointmentsPage: React.FC = () => {
         <div className="w-full md:w-80">
           <SearchInput
             value={search}
-            onChange={(e) => setSearch(e.target.value)}
+            onChange={setSearch}
             onClear={() => setSearch('')}
             placeholder="Search patient, doctor, complaint..."
           />
