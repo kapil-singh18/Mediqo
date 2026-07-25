@@ -106,13 +106,13 @@ export const LandingPage: React.FC = () => {
           </div>
 
           {/* Right Hero Doctor Illustration */}
-          <div className="md:w-1/2 flex justify-center md:justify-end z-10 p-2 sm:p-4">
-            <div className="relative w-full max-w-md flex items-center justify-center p-4">
-              <div className="absolute inset-0 bg-white/10 rounded-[28px] blur-2xl transform rotate-1 pointer-events-none" />
+          <div className="md:w-1/2 flex justify-center md:justify-end items-center z-10">
+            <div className="relative inline-flex items-center justify-center p-6 sm:p-7 bg-white/10 backdrop-blur-xs rounded-[24px] border border-white/20 shadow-xl max-w-full">
+              <div className="absolute inset-0 bg-white/10 rounded-[24px] blur-lg pointer-events-none" />
               <img
                 src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=800&auto=format&fit=crop&q=80"
                 alt="Mediqo Healthcare Specialist"
-                className="w-full h-80 sm:h-[400px] object-contain object-bottom rounded-[24px] shadow-2xl relative z-10 border-4 border-white/20 bg-gradient-to-b from-white/15 to-white/5 p-2 transition-transform duration-300 hover:scale-[1.01]"
+                className="w-auto h-64 sm:h-72 md:h-80 max-w-full object-contain rounded-[16px] relative z-10 transition-transform duration-300 hover:scale-[1.02]"
               />
             </div>
           </div>
